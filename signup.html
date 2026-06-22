@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>ELEV8 </title>
+    <link rel="stylesheet" href="gym.css">
+</head>
+
+<body>
+
+    <header class="nav-inner" id="site-header">
+        <div class="container navbar">
+            <a class="logo" href="index.html">ELEV<span>8</span></a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="gyms.html">Find Gyms</a></li>
+                <li><a href="login.html">Login</a></li>
+            </ul>
+            <div class="nav-action">
+                <a href="signup.html" class="btn">Sign Up</a>
+            </div>
+            <button class="hamburger" id="hamburger" aria-label="Open menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </header>
+
+    <nav class="mobile-nav" id="mobile-nav">
+        <a href="index.html">Home</a>
+        <a href="gyms.html">Find Gyms</a>
+        <a href="login.html">Login</a>
+    </nav>
+
+    <div class="page-offset"></div>
+
+    <div class="form-page" style="padding:60px 0 80px">
+        <div class="container">
+            <div class="form-container">
+                <h1 class="section-title">Create Account</h1>
+                <p class="form-subtitle">Join ELEV8 and find your perfect gym.</p>
+
+                <div class="form-group">
+                    <label for="account-type">Account Type</label>
+                    <select id="account-type">
+                        <option>Member</option>
+                        <option>Gym Owner</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="fname">First Name</label>
+                    <input type="text" id="fname" placeholder="John">
+                </div>
+                <div class="form-group">
+                    <label for="lname">Last Name</label>
+                    <input type="text" id="lname" placeholder="Doe">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" placeholder="you@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Min. 8 characters">
+                </div>
+                <div class="form-group">
+                    <label for="confirm">Confirm Password</label>
+                    <input type="password" id="confirm" placeholder="Repeat password">
+                </div>
+
+                <button type="button" class="btn form-btn-full" onclick="window.location.href='userdashboard.html'">
+                    Create Account
+                </button>
+
+                <p class="form-footer" style="margin-top:20px">
+                    Already have an account? <a href="login.html">Sign in</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-inner">
+                <span class="footer-logo">ELEV<span>8</span></span>
+                <span>© 2026 ELEV8. All rights reserved.</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const hamburger = document.getElementById('hamburger');
+        const mobileNav = document.getElementById('mobile-nav');
+        hamburger.addEventListener('click', () => mobileNav.classList.toggle('open'));
+    </script>
+</body>
+
+</html>

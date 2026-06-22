@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>ELEV8 </title>
+    <link rel="stylesheet" href="gym.css">
+</head>
+
+<body>
+
+    <header class="nav-inner" id="site-header">
+        <div class="container navbar">
+            <a class="logo" href="index.html">ELEV<span>8</span></a>
+            <ul class="nav-links">
+                <li><a href="userdashboard.html">Dashboard</a></li>
+                <li><a href="gyms.html">Find Gyms</a></li>
+            </ul>
+            <div class="nav-action">
+                <button class="btn" onclick="window.location.href='login.html'">Logout</button>
+            </div>
+            <button class="hamburger" id="hamburger" aria-label="Open menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </header>
+
+    <nav class="mobile-nav" id="mobile-nav">
+        <a href="userdashboard.html">Dashboard</a>
+        <a href="gyms.html">Find Gyms</a>
+        <button class="btn" onclick="window.location.href='login.html'">Logout</button>
+    </nav>
+
+    <div class="page-offset"></div>
+
+    <div class="page-banner">
+        <div class="container">
+            <h1>Choose a Membership</h1>
+            <p>Select a plan and confirm your details to join this gym.</p>
+        </div>
+    </div>
+
+    <section class="section">
+        <div class="container">
+
+            <h2 class="section-title">Membership Plans</h2>
+            <div class="gym-grid" style="margin-bottom:56px">
+
+                <div class="plan-card">
+                    <h3>Daily</h3>
+                    <div class="plan-price">₵—<span> / day</span></div>
+                    <p>Drop-in access for one full day of training.</p>
+                    <button class="btn">Select</button>
+                </div>
+
+                <div class="plan-card featured">
+                    <h3>Weekly</h3>
+                    <div class="plan-price">₵—<span> / week</span></div>
+                    <p>Seven days of unlimited access — great value short-term.</p>
+                    <button class="btn">Select</button>
+                </div>
+
+                <div class="plan-card">
+                    <h3>Monthly</h3>
+                    <div class="plan-price">₵—<span> / month</span></div>
+                    <p>Full monthly access at the best daily rate.</p>
+                    <button class="btn">Select</button>
+                </div>
+
+            </div>
+
+            <h2 class="section-title">Your Information</h2>
+            <div class="form-container" style="max-width:560px">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" placeholder="John Doe">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" placeholder="you@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" placeholder="+233 XX XXX XXXX">
+                </div>
+                <button class="btn form-btn-full" type="button">Confirm Subscription</button>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-inner">
+                <span class="footer-logo">ELEV<span>8</span></span>
+                <span>© 2026 ELEV8. All rights reserved.</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const hamburger = document.getElementById('hamburger');
+        const mobileNav = document.getElementById('mobile-nav');
+        hamburger.addEventListener('click', () => mobileNav.classList.toggle('open'));
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>ELEV8 </title>
+    <link rel="stylesheet" href="gym.css">
+</head>
+
+<body>
+
+    <header class="nav-inner" id="site-header">
+        <div class="container navbar">
+            <a class="logo" href="index.html">ELEV<span>8</span></a>
+            <ul class="nav-links">
+                <li><a href="userdashboard.html">Dashboard</a></li>
+                <li><a href="gyms.html" class="active">Find Gyms</a></li>
+                <li><a href="userdashboard.html">Profile</a></li>
+            </ul>
+            <div class="nav-action">
+                <button class="btn" onclick="window.location.href='login.html'">Logout</button>
+            </div>
+            <button class="hamburger" id="hamburger" aria-label="Open menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </header>
+
+    <nav class="mobile-nav" id="mobile-nav">
+        <a href="userdashboard.html">Dashboard</a>
+        <a href="gyms.html">Find Gyms</a>
+        <button class="btn" onclick="window.location.href='login.html'">Logout</button>
+    </nav>
+
+    <div class="page-offset"></div>
+
+    <div class="page-banner">
+        <div class="container">
+            <h1>Gym Name</h1>
+            <p> Location &nbsp;·&nbsp; ★ Rating &nbsp;·&nbsp; From ₵—/mo</p>
+        </div>
+    </div>
+
+    <section class="section">
+        <div class="container">
+            <div class="profile-card">
+                <div class="info-grid">
+                    <div class="info-item">
+                        <label>Location</label>
+                        <p>—</p>
+                    </div>
+                    <div class="info-item">
+                        <label>Rating</label>
+                        <p>—</p>
+                    </div>
+                    <div class="info-item">
+                        <label>Description</label>
+                        <p>—</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="padding-top:0">
+        <div class="container">
+            <h2 class="section-title">Gallery</h2>
+            <div class="gallery-grid">
+                <div class="gallery-placeholder"></div>
+                <div class="gallery-placeholder"></div>
+                <div class="gallery-placeholder"></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="padding-top:0">
+        <div class="container">
+            <h2 class="section-title">Membership Plans</h2>
+            <div class="gym-grid">
+
+                <div class="plan-card">
+                    <h3>Daily Plan</h3>
+                    <div class="plan-price">₵—<span> / day</span></div>
+                    <p>Access to all gym facilities for a single day.</p>
+                    <button class="btn" onclick="window.location.href='user-subscription.html'">Join Now</button>
+                </div>
+
+                <div class="plan-card ">
+                    <h3>Weekly Plan</h3>
+                    <div class="plan-price">₵—<span> / week</span></div>
+                    <p>Seven days of unlimited access. Best short-term value.</p>
+                    <button class="btn" onclick="window.location.href='user-subscription.html'">Join Now</button>
+                </div>
+
+                <div class="plan-card featured">
+                    <h3>Monthly Plan</h3>
+                    <div class="plan-price">₵—<span> / month</span></div>
+                    <p>Full monthly access at the lowest daily rate.</p>
+                    <button class="btn" onclick="window.location.href='user-subscription.html'">Join Now</button>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="padding-top:0">
+        <div class="container">
+            <h2 class="section-title">Gym Schedule</h2>
+            <div class="table-wrapper">
+                <table class="schedule-table">
+                    <thead>
+                        <tr>
+                            <th>Day</th>
+                            <th>Opens</th>
+                            <th>Closes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Monday</td>
+                            <td>—</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td>Tuesday</td>
+                            <td>—</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td>Wednesday</td>
+                            <td>—</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td>Thursday</td>
+                            <td>—</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td>Friday</td>
+                            <td>—</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td>Saturday</td>
+                            <td>—</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td>Sunday</td>
+                            <td>—</td>
+                            <td>—</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="padding-top:0">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title" style="margin-bottom:0">Contact</h2>
+                <a href="user-subscription.html" class="btn">Join This Gym</a>
+            </div>
+            <div class="contact-block">
+                <div class="contact-row">
+                    <span class="contact-icon">📞</span>
+                    <div><strong>Phone</strong><br><span>—</span></div>
+                </div>
+                <div class="contact-row">
+                    <span class="contact-icon">✉️</span>
+                    <div><strong>Email</strong><br><span>—</span></div>
+                </div>
+                <div class="contact-row">
+                    <span class="contact-icon">📍</span>
+                    <div><strong>Address</strong><br><span>—</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-inner">
+                <span class="footer-logo">ELEV<span>8</span></span>
+                <span>© 2026 ELEV8. All rights reserved.</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const hamburger = document.getElementById('hamburger');
+        const mobileNav = document.getElementById('mobile-nav');
+        hamburger.addEventListener('click', () => mobileNav.classList.toggle('open'));
+    </script>
+</body>
+
+</html>

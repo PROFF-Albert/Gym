@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>ELEV8 </title>
+    <link rel="stylesheet" href="gym.css">
+</head>
+
+<body>
+
+    <header class="nav-inner" id="site-header">
+        <div class="container navbar">
+            <a class="logo" href="index.html">ELEV<span>8</span></a>
+            <ul class="nav-links">
+                <li><a href="userdashboard.html" class="active">Dashboard</a></li>
+                <li><a href="gyms.html">Find Gyms</a></li>
+            </ul>
+            <div class="nav-action">
+                <button class="btn" onclick="window.location.href='login.html'">Logout</button>
+            </div>
+            <button class="hamburger" id="hamburger" aria-label="Open menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </header>
+
+    <nav class="mobile-nav" id="mobile-nav">
+        <a href="userdashboard.html">Dashboard</a>
+        <a href="gyms.html">Find Gyms</a>
+        <button class="btn" onclick="window.location.href='login.html'">Logout</button>
+    </nav>
+
+    <div class="page-offset"></div>
+
+    <div class="page-banner">
+        <div class="container">
+            <h1>Welcome Back </h1>
+            <p>Here's an overview of your fitness activity.</p>
+        </div>
+    </div>
+
+    <section class="section">
+        <div class="container">
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    
+                    <div class="stat-label">Membership</div>
+                    <div class="stat-value accent">Active</div>
+                </div>
+                <div class="stat-card">
+                    
+                    <div class="stat-label">Workouts</div>
+                    <div class="stat-value">0</div>
+                </div>
+                <div class="stat-card">
+                    
+                    <div class="stat-label">Check-ins</div>
+                    <div class="stat-value">0</div>
+                </div>
+                <div class="stat-card">
+                    
+                    <div class="stat-label">Days Left</div>
+                    <div class="stat-value">0</div>
+                </div>
+            </div>
+
+            <div class="section-header">
+                <h2 class="section-title" style="margin-bottom:0">Current Gym</h2>
+                <a href="gyms.html" class="btn btn-secondary btn-sm">Change Gym</a>
+            </div>
+            <div class="current-gym-card" style="margin-bottom:48px">
+                <div class="gym-card-img-placeholder current-gym-img" style="width:260px;height:auto;min-height:160px">
+                    🏋️</div>
+                <div class="current-gym-body">
+                    <h3>Gym Name</h3>
+                    <p>📍 Location: —</p>
+                    <p>📞 Phone: —</p>
+                    <p>✉️ Email: —</p>
+                </div>
+            </div>
+
+            <h2 class="section-title">Notifications</h2>
+            <div class="notification-card" style="margin-bottom:48px">
+                <span class="notif-icon">🔔</span>
+                No new notifications
+            </div>
+
+            <div class="section-header">
+                <h2 class="section-title" style="margin-bottom:0">Recent Activity</h2>
+            </div>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Activity</th>
+                            <th>Duration</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="3" style="text-align:center;color:var(--muted);padding:32px">No recent activity
+                                yet.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-inner">
+                <span class="footer-logo">ELEV<span>8</span></span>
+                <span>© 2026 ELEV8. All rights reserved.</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const hamburger = document.getElementById('hamburger');
+        const mobileNav = document.getElementById('mobile-nav');
+        hamburger.addEventListener('click', () => mobileNav.classList.toggle('open'));
+    </script>
+</body>
+
+</html>

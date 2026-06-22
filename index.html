@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>ELEV8 </title>
+    <link rel="stylesheet" href="gym.css">
+</head>
+
+<body>
+
+    <header class="nav-transparent" id="site-header">
+        <div class="container navbar">
+            <a class="logo" href="index.html">ELEV<span>8</span></a>
+            <ul class="nav-links">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="gyms.html">Find Gyms</a></li>
+                <li><a href="login.html">Login</a></li>
+            </ul>
+            <div class="nav-action">
+                <a href="signup.html" class="btn">Get Started</a>
+            </div>
+            <button class="hamburger" id="hamburger" aria-label="Open menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </header>
+
+    <nav class="mobile-nav" id="mobile-nav">
+        <a href="index.html">Home</a>
+        <a href="gyms.html">Find Gyms</a>
+        <a href="login.html">Login</a>
+        <a href="signup.html" class="btn">Get Started</a>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-overlay"></div>
+        <div class="container">
+            <div class="hero-content">
+
+                <h1>Find Your<br><em>Perfect</em> Gym</h1>
+                <p>Search hundreds of gyms, compare memberships, and subscribe instantly. Your fitness journey starts
+                    here.</p>
+                <div class="hero-buttons">
+                    <a href="gyms.html" class="btn">Find A Gym</a>
+                    <a href="signup.html" class="btn btn-outline">Get Started Free</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-inner">
+                <span class="footer-logo">ELEV<span>8</span></span>
+                <div class="footer-links">
+                    <a href="gyms.html">Find Gyms</a>
+                    <a href="login.html">Login</a>
+                    <a href="signup.html">Sign Up</a>
+                </div>
+                <span>© 2026 ELEV8. All rights reserved.</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const header = document.getElementById('site-header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 20) {
+                header.classList.remove('nav-transparent');
+                header.classList.add('nav-scrolled');
+            } else {
+                header.classList.add('nav-transparent');
+                header.classList.remove('nav-scrolled');
+            }
+        });
+        const hamburger = document.getElementById('hamburger');
+        const mobileNav = document.getElementById('mobile-nav');
+        hamburger.addEventListener('click', () => {
+            mobileNav.classList.toggle('open');
+        });
+    </script>
+</body>
+
+</html>
