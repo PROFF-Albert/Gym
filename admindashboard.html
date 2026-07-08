@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>ELEV8 Admin</title>
+    <link rel="stylesheet" href="gym.css">
+</head>
+
+<body>
+
+    <header class="nav-inner" id="site-header">
+        <div class="container navbar">
+            <a class="logo" href="admindashboard.html">ELEV<span>8</span></a>
+            <ul class="nav-links">
+                <li><a href="admindashboard.html" class="active">Admin</a></li>
+            </ul>
+            <div class="nav-action">
+                <button class="btn" onclick="handleLogout()">Logout</button>
+            </div>
+            <button class="hamburger" id="hamburger" aria-label="Open menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </header>
+
+    <nav class="mobile-nav" id="mobile-nav">
+        <a href="admindashboard.html">Admin</a>
+        <button class="btn" onclick="handleLogout()">Logout</button>
+    </nav>
+
+    <div class="page-offset"></div>
+
+    <div class="page-banner">
+        <div class="container">
+            <h1>Admin Dashboard</h1>
+            <p>Manage platform-wide members, gym owners, subscriptions, and payments.</p>
+        </div>
+    </div>
+
+    <section class="section">
+        <div class="container">
+
+            <div id="admin-status-message" class="form-alert" style="display:none"></div>
+
+            <!-- ===== OVERVIEW STATS ===== -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Members</div>
+                    <div class="stat-value" id="stat-members">—</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Gym Owners</div>
+                    <div class="stat-value" id="stat-owners">—</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Gyms Listed</div>
+                    <div class="stat-value" id="stat-gyms">—</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Published Gyms</div>
+                    <div class="stat-value accent" id="stat-published">—</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Active Subscriptions</div>
+                    <div class="stat-value" id="stat-subs">—</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Total Revenue</div>
+                    <div class="stat-value accent" id="stat-revenue">₵0</div>
+                </div>
+            </div>
+
+            <!-- ===== TAB SWITCHER ===== -->
+            <div class="admin-tabs">
+                <button class="admin-tab active" data-tab="members">Members</button>
+                <button class="admin-tab" data-tab="owners">Gym Owners</button>
+                <button class="admin-tab" data-tab="gyms">Gyms</button>
+                <button class="admin-tab" data-tab="subscriptions">Subscriptions</button>
+                <button class="admin-tab" data-tab="payments">Payments</button>
+            </div>
+
+            <!-- ===== MEMBERS PANEL ===== -->
+            <div class="admin-panel active" id="panel-members">
+                <div class="admin-toolbar">
+                    <div class="search-input-wrap">
+                        <input type="text" id="members-search" placeholder="Search members by name or email…">
+                    </div>
+                    <select id="members-status-filter">
+                        <option value="">All Statuses</option>
+                        <option value="active">Active</option>
+                        <option value="suspended">Suspended</option>
+                    </select>
+                </div>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Joined</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="members-tbody">
+                            <tr>
+                                <td colspan="5" class="table-loading">Loading members…</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ===== GYM OWNERS PANEL ===== -->
+            <div class="admin-panel" id="panel-owners">
+                <div class="admin-toolbar">
+                    <div class="search-input-wrap">
+                        <input type="text" id="owners-search" placeholder="Search gym owners by name or email…">
+                    </div>
+                    <select id="owners-status-filter">
+                        <option value="">All Statuses</option>
+                        <option value="active">Active</option>
+                        <option value="suspended">Suspended</option>
+                    </select>
+                </div>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Gym</th>
+                                <th>Joined</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="owners-tbody">
+                            <tr>
+                                <td colspan="6" class="table-loading">Loading gym owners…</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ===== GYMS PANEL ===== -->
+            <div class="admin-panel" id="panel-gyms">
+                <div class="admin-toolbar">
+                    <div class="search-input-wrap">
+                        <input type="text" id="gyms-search" placeholder="Search gyms by name or location…">
+                    </div>
+                    <select id="gyms-status-filter">
+                        <option value="">All Statuses</option>
+                        <option value="published">Published</option>
+                        <option value="draft">Draft</option>
+                    </select>
+                </div>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Gym Name</th>
+                                <th>Owner</th>
+                                <th>Location</th>
+                                <th>Price From</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="gyms-tbody">
+                            <tr>
+                                <td colspan="6" class="table-loading">Loading gyms…</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ===== SUBSCRIPTIONS PANEL ===== -->
+            <div class="admin-panel" id="panel-subscriptions">
+                <div class="admin-toolbar">
+                    <div class="search-input-wrap">
+                        <input type="text" id="subs-search" placeholder="Search subscriptions by member or gym…">
+                    </div>
+                    <select id="subs-status-filter">
+                        <option value="">All Statuses</option>
+                        <option value="active">Active</option>
+                        <option value="expired">Expired</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+                </div>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Member</th>
+                                <th>Gym</th>
+                                <th>Plan</th>
+                                <th>Start</th>
+                                <th>End</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="subs-tbody">
+                            <tr>
+                                <td colspan="7" class="table-loading">Loading subscriptions…</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ===== PAYMENTS PANEL ===== -->
+            <div class="admin-panel" id="panel-payments">
+                <div class="admin-toolbar">
+                    <div class="search-input-wrap">
+                        <input type="text" id="payments-search" placeholder="Search payments by member or gym…">
+                    </div>
+                    <select id="payments-status-filter">
+                        <option value="">All Statuses</option>
+                        <option value="success">Success</option>
+                        <option value="pending">Pending</option>
+                        <option value="failed">Failed</option>
+                    </select>
+                </div>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Member</th>
+                                <th>Gym</th>
+                                <th>Amount</th>
+                                <th>Method</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="payments-tbody">
+                            <tr>
+                                <td colspan="6" class="table-loading">Loading payments…</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-inner">
+                <span class="footer-logo">ELEV<span>8</span></span>
+                <span>© 2026 ELEV8. All rights reserved.</span>
+            </div>
+        </div>
+    </footer>
+
+    
+    <div class="admin-modal-overlay" id="admin-modal-overlay">
+        <div class="admin-modal">
+            <h3 id="admin-modal-title">Confirm Action</h3>
+            <p id="admin-modal-text">Are you sure?</p>
+            <div class="admin-modal-actions">
+                <button class="btn btn-sm" style="background:var(--light);color:var(--primary)"
+                    id="admin-modal-cancel">Cancel</button>
+                <button class="btn btn-sm btn-danger" id="admin-modal-confirm">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const hamburger = document.getElementById('hamburger');
+        const mobileNav = document.getElementById('mobile-nav');
+        hamburger.addEventListener('click', () => mobileNav.classList.toggle('open'));
+
+        // Tab switching
+        document.querySelectorAll('.admin-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.admin-panel').forEach(p => p.classList.remove('active'));
+                tab.classList.add('active');
+                document.getElementById(`panel-${tab.dataset.tab}`).classList.add('active');
+            });
+        });
+    </script>
+
+    <script type="module" src="auth.js"></script>
+    <script type="module" src="admin.js"></script>
+</body>
+
+</html>

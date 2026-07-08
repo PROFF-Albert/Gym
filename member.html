@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>ELEV8 </title>
+    <title>ELEV8</title>
     <link rel="stylesheet" href="gym.css">
 </head>
 
@@ -12,17 +12,13 @@
 
     <header class="nav-inner" id="site-header">
         <div class="container navbar">
-            <a class="logo" href="ownersdashboard.html">ELEV<span>8</span></a>
+            <a class="logo" href="index.html">ELEV<span>8</span></a>
             <ul class="nav-links">
-                <li><a href="ownersdashboard.html">Dashboard</a></li>
-                <li><a href="member.html" class="active">Members</a></li>
-                <li><a href="subscription.html">Subscriptions</a></li>
-                <li><a href="payment.html">Payments</a></li>
-                <li><a href="gym-profile.html">Gym Profile</a></li>
-                <li><a href="settings.html">Settings</a></li>
+                <li><a href="userdashboard.html">Dashboard</a></li>
+                <li><a href="gyms.html" class="active">Find Gyms</a></li>
             </ul>
             <div class="nav-action">
-                <button class="btn" onclick="window.location.href='login.html'">Logout</button>
+                <button class="btn" onclick="handleLogout()">Logout</button>
             </div>
             <button class="hamburger" id="hamburger" aria-label="Open menu">
                 <span></span><span></span><span></span>
@@ -31,65 +27,39 @@
     </header>
 
     <nav class="mobile-nav" id="mobile-nav">
-        <a href="ownersdashboard.html">Dashboard</a>
-        <a href="member.html">Members</a>
-        <a href="subscription.html">Subscriptions</a>
-        <a href="payment.html">Payments</a>
-        <a href="gym-profile.html">Gym Profile</a>
-        <a href="settings.html">Settings</a>
-        <button class="btn" onclick="window.location.href='login.html'">Logout</button>
+        <a href="userdashboard.html">Dashboard</a>
+        <a href="gyms.html">Find Gyms</a>
+        <button class="btn" onclick="handleLogout()">Logout</button>
     </nav>
 
     <div class="page-offset"></div>
 
     <div class="page-banner">
         <div class="container">
-            <h1>Members</h1>
-            <p>View and manage all gym members.</p>
+            <h1>Find a Gym</h1>
         </div>
     </div>
 
     <section class="section">
         <div class="container">
 
-            <div class="section-header">
-                <div class="search-input-wrap" style="margin-bottom:0">
-                    <input type="text" placeholder="Search members…">
-                </div>
+            <div class="search-bar">
+                <input type="text" id="gym-search-input" placeholder="Search by gym name or keyword…">
+                <select id="gym-location-filter">
+                    <option value="">All Locations</option>
+                </select>
+                <select id="gym-price-filter">
+                    <option value="">Any Price</option>
+                    <option value="0-50">Under ₵50/mo</option>
+                    <option value="50-150">₵50–₵150/mo</option>
+                    <option value="150-999999">₵150+/mo</option>
+                </select>
+                <button class="btn" id="gym-search-btn">Search</button>
             </div>
 
-            <div class="table-wrapper">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Plan</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td colspan="6" style="text-align:center;color:var(--muted);padding:40px">
-                                No members found.
-                            </td>
-                        </tr>
-                        <tr style="display:none">
-                            <td>—</td>
-                            <td>—</td>
-                            <td>—</td>
-                            <td>—</td>
-                            <td><span class="badge badge-green">Active</span></td>
-                            <td>
-                                <a href="member-profile.html" class="btn btn-sm">View</a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="gym-grid" id="gym-results-grid">
+                <p class="table-loading">Loading gyms…</p>
             </div>
-
         </div>
     </section>
 
@@ -107,6 +77,9 @@
         const mobileNav = document.getElementById('mobile-nav');
         hamburger.addEventListener('click', () => mobileNav.classList.toggle('open'));
     </script>
+
+    <script type="module" src="auth.js"></script>
+    <script type="module" src="gyms-listing.js"></script>
 </body>
 
 </html>

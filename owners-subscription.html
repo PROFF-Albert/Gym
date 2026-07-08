@@ -22,7 +22,7 @@
                 <li><a href="settings.html">Settings</a></li>
             </ul>
             <div class="nav-action">
-                <button class="btn" onclick="window.location.href='login.html'">Logout</button>
+                <button class="btn" onclick="handleLogout()">Logout</button>
             </div>
             <button class="hamburger" id="hamburger" aria-label="Open menu">
                 <span></span><span></span><span></span>
@@ -37,7 +37,7 @@
         <a href="payment.html">Payments</a>
         <a href="gym-profile.html">Gym Profile</a>
         <a href="settings.html">Settings</a>
-        <button class="btn" onclick="window.location.href='login.html'">Logout</button>
+        <button class="btn" onclick="handleLogout()">Logout</button>
     </nav>
 
     <div class="page-offset"></div>
@@ -107,6 +107,8 @@
         const mobileNav = document.getElementById('mobile-nav');
         hamburger.addEventListener('click', () => mobileNav.classList.toggle('open'));
     </script>
+
+    <script type="module" src="auth.js"></script>
 </body>
 
 </html>
