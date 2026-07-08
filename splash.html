@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>ELEV8 — Loading</title>
+    <link rel="stylesheet" href="gym.css">
+    <style>
+       
+        .splash-screen {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: #023341;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            transition: opacity 1s ease, transform 1s ease;
+        }
+
+        .splash-screen.fade-out {
+            opacity: 0;
+            transform: scale(1.03);
+            pointer-events: none;
+        }
+
+        /* Background gym photo, overlaid with brand primary */
+        .splash-bg-photo {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(180deg, rgba(2, 51, 65, 0.88) 0%, rgba(2, 51, 65, 0.94) 55%, rgba(2, 51, 65, 0.97) 100%),
+                url('https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=1600&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            filter: grayscale(0.15) brightness(0.55);
+            opacity: 0.9;
+        }
+
+        /* Soft ceiling light streaks */
+        .splash-streak {
+            position: absolute;
+            width: 220px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(252, 245, 227, 0.1), transparent);
+            transform: rotate(-18deg);
+            filter: blur(1px);
+        }
+
+        .splash-streak--1 {
+            top: 6%;
+            left: -4%;
+        }
+
+        .splash-streak--2 {
+            top: 16%;
+            left: 18%;
+            width: 140px;
+            opacity: 0.7;
+        }
+
+        .splash-streak--3 {
+            top: 9%;
+            right: -2%;
+            transform: rotate(18deg);
+        }
+
+        /* Glowing orbs — accent + background tints */
+        .splash-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(90px);
+            opacity: 0;
+            animation: orbPulse 7s ease-in-out infinite;
+        }
+
+        .splash-orb--1 {
+            width: 420px;
+            height: 420px;
+            background: rgba(254, 85, 22, 0.12);
+            top: -8%;
+            right: -8%;
+            animation-delay: 0.5s;
+        }
+
+        .splash-orb--2 {
+            width: 380px;
+            height: 380px;
+            background: rgba(216, 66, 13, 0.08);
+            bottom: -12%;
+            left: -8%;
+            animation-delay: 2s;
+        }
+
+        .splash-orb--3 {
+            width: 260px;
+            height: 260px;
+            background: rgba(252, 245, 227, 0.05);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -60%);
+            animation-delay: 3.5s;
+        }
+
+        @keyframes orbPulse {
+
+            0%,
+            100% {
+                opacity: 0;
+                transform: scale(0.85);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Logo area */
+        .splash-logo-wrap {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 18px;
+        }
+
+        /* Geometric mark */
+        .splash-mark {
+            width: 150px;
+            height: auto;
+            opacity: 0;
+            transform: translateY(-18px) scale(0.9);
+            animation: markReveal 1.5s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
+            filter: drop-shadow(0 0 22px rgba(254, 85, 22, 0.25));
+        }
+
+        @keyframes markReveal {
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* Brand wordmark */
+        .splash-brand {
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: brandSlideUp 1.2s ease-out 1.5s forwards;
+        }
+
+        @keyframes brandSlideUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .splash-brand-text {
+            font-family: var(--font-display);
+            font-size: clamp(56px, 12vw, 96px);
+            font-weight: 800;
+            font-style: italic;
+            color: #FCF5E3;
+            letter-spacing: -1px;
+            text-transform: uppercase;
+            line-height: 1;
+        }
+
+        .splash-brand-eight {
+            font-family: var(--font-display);
+            font-size: clamp(56px, 12vw, 96px);
+            font-weight: 800;
+            font-style: italic;
+            color: #FE5516;
+            letter-spacing: -1px;
+            text-transform: uppercase;
+            line-height: 1;
+            animation: accentPulse 3.5s ease-in-out infinite;
+        }
+
+        @keyframes accentPulse {
+
+            0%,
+            100% {
+                text-shadow: 0 0 20px rgba(254, 85, 22, 0.3);
+            }
+
+            50% {
+                text-shadow: 0 0 40px rgba(254, 85, 22, 0.6);
+            }
+        }
+
+        /* Tagline */
+        .splash-tagline {
+            font-family: var(--font-body);
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: rgba(252, 245, 227, 0.7);
+            opacity: 0;
+            animation: taglineFade 1.2s ease-out 2.2s forwards;
+        }
+
+        .splash-tagline span {
+            color: #FE5516;
+        }
+
+        @keyframes taglineFade {
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Progress bar */
+        .splash-loader {
+            position: absolute;
+            bottom: 100px;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            opacity: 0;
+            animation: taglineFade 1s ease-out 3s forwards;
+        }
+
+        .splash-loader-bar {
+            width: 220px;
+            height: 3px;
+            background: rgba(252, 245, 227, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .splash-loader-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #FE5516, #d8420d);
+            border-radius: 10px;
+            animation: loaderFill 4s ease-in-out 3.5s forwards;
+            box-shadow: 0 0 12px rgba(254, 85, 22, 0.5);
+        }
+
+        @keyframes loaderFill {
+            0% {
+                width: 0%;
+            }
+
+            30% {
+                width: 45%;
+            }
+
+            60% {
+                width: 68%;
+            }
+
+            100% {
+                width: 100%;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .splash-mark {
+                width: 110px;
+            }
+
+            .splash-loader-bar {
+                width: 170px;
+            }
+
+            .splash-orb--1,
+            .splash-orb--2 {
+                width: 260px;
+                height: 260px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            .splash-screen,
+            .splash-mark,
+            .splash-brand,
+            .splash-brand-eight,
+            .splash-tagline,
+            .splash-loader,
+            .splash-loader-fill,
+            .splash-orb {
+                animation: none !important;
+                opacity: 1 !important;
+                transform: none !important;
+            }
+
+            .splash-loader-fill {
+                width: 100% !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ====== SPLASH SCREEN ====== -->
+    <div class="splash-screen" id="splash-screen">
+
+        <!-- Background photo + effects -->
+        <div class="splash-bg-photo"></div>
+        <div class="splash-streak splash-streak--1"></div>
+        <div class="splash-streak splash-streak--2"></div>
+        <div class="splash-streak splash-streak--3"></div>
+        <div class="splash-orb splash-orb--1"></div>
+        <div class="splash-orb splash-orb--2"></div>
+        <div class="splash-orb splash-orb--3"></div>
+
+        <!-- Main content -->
+        <div class="splash-logo-wrap">
+
+            <!-- Geometric "S/8" mark -->
+            <svg class="splash-mark" viewBox="0 0 200 140" xmlns="http://www.w3.org/2000/svg">
+                <path d="M120 10 L60 10 L20 55 L60 55 L60 75 L100 75 L60 120 L100 120 L150 65 L100 65 L100 45 Z"
+                    fill="#FCF5E3" />
+                <path d="M100 45 L150 45 L180 75 L165 95 L120 95 L100 75 Z" fill="#FE5516" />
+            </svg>
+
+            <!-- Brand name -->
+            <div class="splash-brand">
+                <span class="splash-brand-text">ELEV</span>
+                <span class="splash-brand-eight">8</span>
+            </div>
+
+            <!-- Tagline -->
+            <p class="splash-tagline">TRAIN SMARTER. <span>LIVE BETTER.</span></p>
+        </div>
+
+        <!-- Progress bar -->
+        <div class="splash-loader">
+            <div class="splash-loader-bar">
+                <div class="splash-loader-fill" id="splash-loader-fill"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ====== SPLASH JS ====== -->
+    <script>
+        const splashScreen = document.getElementById('splash-screen');
+        const SPLASH_DURATION = 8000; // Total splash time in ms (slowed down)
+
+        let dismissed = false;
+
+        function dismissSplash() {
+            if (dismissed) return;
+            dismissed = true;
+            splashScreen.classList.add('fade-out');
+            // Redirect to index after fade
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 1000);
+        }
+
+        // Auto-dismiss after splash duration
+        setTimeout(dismissSplash, SPLASH_DURATION);
+
+        // Also allow pressing any key to skip
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ') {
+                dismissSplash();
+            }
+        });
+    </script>
+
+</body>
+
+</html>

@@ -1,81 +1,172 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>ELEV8 </title>
-    <link rel="stylesheet" href="gym.css">
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <title>ELEV8 </title>
+        <link rel="stylesheet" href="gym.css">
+    </head>
 
-<body>
+    <body>
 
-    <header class="nav-transparent" id="site-header">
-        <div class="container navbar">
-            <a class="logo" href="index.html">ELEV<span>8</span></a>
-            <ul class="nav-links">
-                <li><a href="index.html" class="active">Home</a></li>
-                <li><a href="gyms.html">Find Gyms</a></li>
-                <li><a href="login.html">Login</a></li>
-            </ul>
-            <div class="nav-action">
-                <a href="signup.html" class="btn">Get Started</a>
+        <header class="nav-transparent" id="site-header">
+            <div class="container navbar">
+                <a class="logo" href="index.html">ELEV<span>8</span></a>
+                <ul class="nav-links">
+                    <li><a href="index.html" class="active">Home</a></li>
+                    <li><a href="gyms.html">Find Gyms</a></li>
+                    <li><a href="login.html">Login</a></li>
+                </ul>
+                <div class="nav-action">
+                    <a href="signup.html" class="btn">Get Started</a>
+                </div>
+                <button class="hamburger" id="hamburger" aria-label="Open menu">
+                    <span></span><span></span><span></span>
+                </button>
             </div>
-            <button class="hamburger" id="hamburger" aria-label="Open menu">
-                <span></span><span></span><span></span>
-            </button>
-        </div>
-    </header>
+        </header>
 
-    <nav class="mobile-nav" id="mobile-nav">
-        <a href="index.html">Home</a>
-        <a href="gyms.html">Find Gyms</a>
-        <a href="login.html">Login</a>
-        <a href="signup.html" class="btn">Get Started</a>
-    </nav>
+        <nav class="mobile-nav" id="mobile-nav">
+            <a href="index.html">Home</a>
+            <a href="gyms.html">Find Gyms</a>
+            <a href="login.html">Login</a>
+            <a href="signup.html" class="btn">Get Started</a>
+        </nav>
+        
+        <section class="hero" aria-label="Gym photo slideshow">
+            <div class="hero-slideshow" id="hero-slideshow">
+                <img class="hero-slide active" src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&amp;fit=crop&amp;w=1800&amp;q=80" alt="People training with weights in a modern gym">
+                <img class="hero-slide" src="https://images.unsplash.com/photo-1571902943202-507ec2618e8f?auto=format&amp;fit=crop&amp;w=1800&amp;q=80" alt="Strength equipment lined up on a gym floor">
+                <img class="hero-slide" src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&amp;fit=crop&amp;w=1800&amp;q=80" alt="Athlete lifting dumbbells during a workout">
+            </div>
+            <div class="hero-overlay"></div>
+            <div class="container">
+                <div class="hero-content">
 
-    <section class="hero">
-        <div class="hero-overlay"></div>
-        <div class="container">
-            <div class="hero-content">
-
-                <h1>Find Your<br><em>Perfect</em> Gym</h1>
-                <p>Search hundreds of gyms, compare memberships, and subscribe instantly. Your fitness journey starts
-                    here.</p>
-                <div class="hero-buttons">
-                    <a href="gyms.html" class="btn">Find A Gym</a>
-                    <a href="signup.html" class="btn btn-outline">Get Started Free</a>
+                    <div class="hero-eyebrow">Train smarter across Ghana</div>
+                    <h1>Find Your<br><em>Perfect</em> Gym</h1>
+                    <div class="hero-buttons">
+                        <a href="gyms.html" class="btn">Find A Gym</a>
+                        <a href="signup.html" class="btn btn-outline">Get Started Free</a>
+                    </div>
+                    <div class="hero-highlights" aria-label="ELEV8 highlights">
+                        <span><strong>120+</strong> listed gyms</span>
+                        <span><strong>24/7</strong> plan access</span>
+                        <span><strong>1</strong> simple account</span>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <footer>
-        <div class="container">
-            <div class="footer-inner">
-                <span class="footer-logo">ELEV<span>8</span></span>
-                <span>© 2026 ELEV8. All rights reserved.</span>
+            <div class="hero-slider-controls" aria-label="Slideshow progress">
+                <div class="hero-slider-dots" id="hero-slider-dots" aria-hidden="true"></div>
             </div>
-        </div>
-    </footer>
+        </section>
 
-    <script>
-        const header = document.getElementById('site-header');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 20) {
-                header.classList.remove('nav-transparent');
-                header.classList.add('nav-scrolled');
-            } else {
-                header.classList.add('nav-transparent');
-                header.classList.remove('nav-scrolled');
-            }
-        });
-        const hamburger = document.getElementById('hamburger');
-        const mobileNav = document.getElementById('mobile-nav');
-        hamburger.addEventListener('click', () => {
-            mobileNav.classList.toggle('open');
-        });
-    </script>
-</body>
+        <section class="home-strip" aria-label="How ELEV8 helps">
+            <div class="container home-strip-grid">
+                <article class="home-strip-item">
+                    <span>01</span>
+                    <h3>Compare Gyms</h3>
+                    <p>Scan locations, prices, ratings, and available plans before you commit.</p>
+                </article>
+                <article class="home-strip-item">
+                    <span>02</span>
+                    <h3>Subscribe Fast</h3>
+                    <p>Choose daily, weekly, or monthly access and keep your membership details in one place.</p>
+                </article>
+                <article class="home-strip-item">
+                    <span>03</span>
+                    <h3>Track Progress</h3>
+                    <p>See your gym, membership status, notifications, and recent activity from your dashboard.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="section home-preview">
+            <div class="container home-preview-grid">
+                <div class="home-preview-copy">
+                    <h2 class="section-title">Built For <span>Every</span> Routine</h2>
+                    <p>Whether you need a nearby weight room, a flexible short-term plan, or a gym owner dashboard, ELEV8 keeps the next step easy to find.</p>
+                    <a href="gyms.html" class="btn btn-secondary">Browse Gyms</a>
+                </div>
+                <div class="home-preview-panel" aria-label="Membership preview">
+                    <div class="preview-plan active">
+                        <span>Weekly Pass</span>
+                        <strong>₵50 - ₵100</strong>
+                        <small>Best for trying a new gym</small>
+                    </div>
+                    <div class="preview-plan">
+                        <span>Monthly Plan</span>
+                        <strong>₵150 - ₵600</strong>
+                        <small>Unlimited access for regular training</small>
+                    </div>
+                    <div class="preview-plan">
+                        <span>Owner Tools</span>
+                        <strong>Live</strong>
+                        <small>Members, payments, and subscriptions</small>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <div class="container">
+                <div class="footer-inner">
+                    <span class="footer-logo">ELEV<span>8</span></span>
+                    <span>© 2026 ELEV8. All rights reserved.</span>
+                </div>
+            </div>
+        </footer>
+
+        <script>
+            const header = document.getElementById('site-header');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 20) {
+                    header.classList.remove('nav-transparent');
+                    header.classList.add('nav-scrolled');
+                } else {
+                    header.classList.add('nav-transparent');
+                    header.classList.remove('nav-scrolled');
+                }
+            });
+            const hamburger = document.getElementById('hamburger');
+            const mobileNav = document.getElementById('mobile-nav');
+            hamburger.addEventListener('click', () => {
+                mobileNav.classList.toggle('open');
+            });
+
+            const slides = document.querySelectorAll('.hero-slide');
+            const dotsWrap = document.getElementById('hero-slider-dots');
+            let activeSlide = 0;
+            let slideTimer;
+
+            const showSlide = (index) => {
+                activeSlide = (index + slides.length) % slides.length;
+
+                slides.forEach((slide, slideIndex) => {
+                    slide.classList.toggle('active', slideIndex === activeSlide);
+                });
+
+                document.querySelectorAll('.hero-slider-dot').forEach((dot, dotIndex) => {
+                    dot.classList.toggle('active', dotIndex === activeSlide);
+                    dot.setAttribute('aria-current', dotIndex === activeSlide ? 'true' : 'false');
+                });
+            };
+
+            const startSlider = () => {
+                window.clearInterval(slideTimer);
+                slideTimer = window.setInterval(() => showSlide(activeSlide + 1), 5500);
+            };
+
+            slides.forEach((_, slideIndex) => {
+                const dot = document.createElement('span');
+                dot.className = 'hero-slider-dot';
+                dotsWrap.appendChild(dot);
+            });
+
+            showSlide(0);
+            startSlider();
+        </script>
+    </body>
 
 </html>

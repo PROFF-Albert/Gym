@@ -22,7 +22,7 @@
                 <li><a href="settings.html">Settings</a></li>
             </ul>
             <div class="nav-action">
-                <button class="btn" onclick="window.location.href='login.html'">Logout</button>
+                <button class="btn" onclick="handleLogout()">Logout</button>
             </div>
             <button class="hamburger" id="hamburger" aria-label="Open menu">
                 <span></span><span></span><span></span>
@@ -37,7 +37,7 @@
         <a href="payment.html">Payments</a>
         <a href="gym-profile.html">Gym Profile</a>
         <a href="settings.html">Settings</a>
-        <button class="btn" onclick="window.location.href='login.html'">Logout</button>
+        <button class="btn" onclick="handleLogout()">Logout</button>
     </nav>
 
     <div class="page-offset"></div>
@@ -45,42 +45,124 @@
     <div class="page-banner">
         <div class="container">
             <h1>Gym Profile</h1>
-            <p>Your gym's public listing details and member information.</p>
+            <p>Create, publish, and manage your gym's public listing.</p>
         </div>
     </div>
 
     <section class="section">
         <div class="container">
 
-            <div class="profile-card">
-                <div class="profile-header">
-                    
-                    <div class="profile-info">
-                        <h2>Gym Name</h2>
-                        <p>Member profile</p>
+            <div id="gym-status-message" class="form-alert" style="display:none"></div>
+
+            <div class="gym-profile-layout">
+                <aside class="gym-profile-summary">
+                    <div class="gym-logo-preview" id="gym-logo-preview">
+                        <span>No logo</span>
                     </div>
-                </div>
-                <div class="info-grid">
-                    <div class="info-item">
-                        <label>Full Name</label>
-                        <p>—</p>
+                    <h2 id="gym-profile-title">Create Your Gym Profile</h2>
+                    <p id="gym-profile-subtitle">No gym profile yet</p>
+                    <div class="info-grid compact">
+                        <div class="info-item">
+                            <label>Status</label>
+                            <p id="gym-status-label">Not created</p>
+                        </div>
+                        <div class="info-item">
+                            <label>Location</label>
+                            <p id="gym-location-label">-</p>
+                        </div>
+                        <div class="info-item">
+                            <label>Created</label>
+                            <p id="gym-created-label">-</p>
+                        </div>
+                        <div class="info-item">
+                            <label>Updated</label>
+                            <p id="gym-updated-label">-</p>
+                        </div>
                     </div>
-                    <div class="info-item">
-                        <label>Email</label>
-                        <p>—</p>
+                    <div class="gym-profile-actions">
+                        <button class="btn" type="button" id="publish-gym-btn" disabled>Publish Gym</button>
+                        <button class="btn btn-danger" type="button" id="delete-gym-btn" disabled>Delete Gym</button>
                     </div>
-                    <div class="info-item">
-                        <label>Phone</label>
-                        <p>—</p>
+                </aside>
+
+                <form class="gym-profile-form" id="gym-profile-form">
+                    <h2 class="section-title">Listing Details</h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="gym-name">Gym Name</label>
+                            <input type="text" id="gym-name" placeholder="ELEV8 Fitness Lab" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="gym-location">Location</label>
+                            <input type="text" id="gym-location" placeholder="Accra" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="gym-phone">Phone</label>
+                            <input type="tel" id="gym-phone" placeholder="+233 XX XXX XXXX">
+                        </div>
+                        <div class="form-group">
+                            <label for="gym-email">Email</label>
+                            <input type="email" id="gym-email" placeholder="gym@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="gym-price">Starting Price (GHS)</label>
+                            <input type="number" id="gym-price" min="0" step="1" placeholder="150">
+                        </div>
+                        <div class="form-group">
+                            <label for="gym-logo">Logo</label>
+                            <input type="file" id="gym-logo" accept="image/*">
+                        </div>
                     </div>
-                    <div class="info-item">
-                        <label>Address</label>
-                        <p>—</p>
+                    <div class="form-group">
+                        <label for="gym-address">Address</label>
+                        <input type="text" id="gym-address" placeholder="Street, area, city">
                     </div>
-                    <div class="info-item">
-                        <label>Join Date</label>
-                        <p>—</p>
+                    <div class="form-group">
+                        <label for="gym-description">Description</label>
+                        <textarea id="gym-description" placeholder="Tell members what makes your gym worth joining."></textarea>
                     </div>
+                    <div class="form-group">
+                        <label for="gym-gallery">Gallery Images</label>
+                        <input type="file" id="gym-gallery" accept="image/*" multiple>
+                    </div>
+                    <button class="btn form-btn-full" type="submit" id="save-gym-btn">Save Gym Profile</button>
+                </form>
+            </div>
+
+            <div class="section-header" style="margin-top:56px">
+                <h2 class="section-title" style="margin-bottom:0">Gallery Preview</h2>
+            </div>
+            <div class="gym-gallery-preview" id="gym-gallery-preview">
+                <p>No gallery images yet.</p>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="section-sm">
+        <div class="container">
+            <div class="notification-card">
+                Your listing appears on member-facing gym pages only after you publish it.
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-inner">
+                <span class="footer-logo">ELEV<span>8</span></span>
+                <span>© 2026 ELEV8. All rights reserved.</span>
+            </div>
+        </div>
+    </footer>
+
+   
+
+    <script type="module" src="auth.js"></script>
+    <script type="module" src="owner-gym.js"></script>
+</body>
+
+</html>
                 </div>
             </div>
 
@@ -140,6 +222,8 @@
         const mobileNav = document.getElementById('mobile-nav');
         hamburger.addEventListener('click', () => mobileNav.classList.toggle('open'));
     </script>
+
+    <script type="module" src="auth.js"></script>
 </body>
 
 </html>

@@ -18,7 +18,7 @@
                 <li><a href="gyms.html">Find Gyms</a></li>
             </ul>
             <div class="nav-action">
-                <button class="btn" onclick="window.location.href='login.html'">Logout</button>
+                <button class="btn" onclick="handleLogout()">Logout</button>
             </div>
             <button class="hamburger" id="hamburger" aria-label="Open menu">
                 <span></span><span></span><span></span>
@@ -29,7 +29,7 @@
     <nav class="mobile-nav" id="mobile-nav">
         <a href="userdashboard.html">Dashboard</a>
         <a href="gyms.html">Find Gyms</a>
-        <button class="btn" onclick="window.location.href='login.html'">Logout</button>
+        <button class="btn" onclick="handleLogout()">Logout</button>
     </nav>
 
     <div class="page-offset"></div>
@@ -46,22 +46,22 @@
 
             <div class="stats-grid">
                 <div class="stat-card">
-                    
+
                     <div class="stat-label">Membership</div>
                     <div class="stat-value accent">Active</div>
                 </div>
                 <div class="stat-card">
-                    
+
                     <div class="stat-label">Workouts</div>
                     <div class="stat-value">0</div>
                 </div>
                 <div class="stat-card">
-                    
+
                     <div class="stat-label">Check-ins</div>
                     <div class="stat-value">0</div>
                 </div>
                 <div class="stat-card">
-                    
+
                     <div class="stat-label">Days Left</div>
                     <div class="stat-value">0</div>
                 </div>
@@ -73,7 +73,7 @@
             </div>
             <div class="current-gym-card" style="margin-bottom:48px">
                 <div class="gym-card-img-placeholder current-gym-img" style="width:260px;height:auto;min-height:160px">
-                    </div>
+                </div>
                 <div class="current-gym-body">
                     <h3>Gym Name</h3>
                     <p>Location: —</p>
@@ -84,7 +84,7 @@
 
             <h2 class="section-title">Notifications</h2>
             <div class="notification-card" style="margin-bottom:48px">
-                
+
                 No new notifications
             </div>
 
@@ -126,6 +126,8 @@
         const mobileNav = document.getElementById('mobile-nav');
         hamburger.addEventListener('click', () => mobileNav.classList.toggle('open'));
     </script>
+
+    <script type="module" src="auth.js"></script>
 </body>
 
 </html>
