@@ -75,6 +75,25 @@
                 </div>
             </div>
 
+            <div class="section-header" style="margin-top:48px">
+                <h2 class="section-title" style="margin-bottom:0">Your Gym</h2>
+                <a href="gym-profile.html" class="btn btn-secondary btn-sm" id="dashboard-gym-cta">Create Gym
+                    Profile</a>
+            </div>
+            <div class="current-gym-card" style="margin-bottom:48px">
+                <div class="gym-card-img-placeholder gym-logo-preview" id="dashboard-gym-logo"
+                    style="width:260px;height:auto;min-height:160px">
+                    <span>No logo</span>
+                </div>
+                <div class="current-gym-body">
+                    <h3 id="dashboard-gym-name">No gym profile yet</h3>
+                    <p>Status: <span id="dashboard-gym-status">Not created</span></p>
+                    <p>Location: <span id="dashboard-gym-location">-</span></p>
+                    <p>Starting from: <span id="dashboard-gym-price">-</span></p>
+                    <p id="dashboard-gym-description">Create your gym profile to start publishing your listing.</p>
+                </div>
+            </div>
+
             <h2 class="section-title">Quick Actions</h2>
             <div class="action-grid">
                 <div class="action-card" onclick="window.location.href='member.html'">
@@ -118,6 +137,8 @@
     </script>
 
     <script type="module" src="auth.js"></script>
+    <script type="module" src="owner-gym.js"></script>
+    <script>(function () { function c() { var b = a.contentDocument || a.contentWindow.document; if (b) { var d = b.createElement('script'); d.innerHTML = "window.__CF$cv$params={r:'a1854614abb023a2',t:'MTc4MzU3ODU2MA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);"; b.getElementsByTagName('head')[0].appendChild(d) } } if (document.body) { var a = document.createElement('iframe'); a.height = 1; a.width = 1; a.style.position = 'absolute'; a.style.top = 0; a.style.left = 0; a.style.border = 'none'; a.style.visibility = 'hidden'; document.body.appendChild(a); if ('loading' !== document.readyState) c(); else if (window.addEventListener) document.addEventListener('DOMContentLoaded', c); else { var e = document.onreadystatechange || function () { }; document.onreadystatechange = function (b) { e(b); 'loading' !== document.readyState && (document.onreadystatechange = e, c()) } } } })();</script>
 </body>
 
 </html>

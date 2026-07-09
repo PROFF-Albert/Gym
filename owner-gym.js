@@ -1,4 +1,4 @@
-import { auth, db, storage } from "./firebase-init.js";
+import { auth, db } from "./firebase-init.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
 import {
   deleteDoc,
@@ -7,16 +7,40 @@ import {
   serverTimestamp,
   setDoc
 } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
-import {
-  deleteObject,
-  getDownloadURL,
-  ref,
-  uploadBytes
-} from "https://www.gstatic.com/firebasejs/10.13.2/firebase-storage.js";
+const CLOUD_NAME = "ddvgdqtb0";
+const UPLOAD_PRESET = "elevate8"; 
+
+async function uploadImage(file) {
+  const formData = new FormData();
+
+  formData.append("file", file);
+  formData.append("upload_preset", UPLOAD_PRESET);
+
+  const response = await fetch(
+    `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
+    {
+      method: "POST",
+      body: formData
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Image upload failed.");
+  }
+
+  const data = await response.json();
+
+  return {
+    url: data.secure_url,
+    publicId: data.public_id
+  };
+}
 
 const page = window.location.pathname.split("/").pop();
 let currentUser = null;
 let currentGym = null;
+let gymProfileInitialized = false;
+let ownerDashboardInitialized = false;
 
 const money = new Intl.NumberFormat("en-GH", {
   style: "currency",
@@ -67,27 +91,7 @@ function storagePath(uid, folder, file) {
   return `gyms/${uid}/${folder}/${Date.now()}-${safeName}`;
 }
 
-async function uploadImage(file, folder) {
-  if (!file) return null;
-  if (!file.type.startsWith("image/")) {
-    throw new Error("Only image files can be uploaded.");
-  }
 
-  const path = storagePath(currentUser.uid, folder, file);
-  const imageRef = ref(storage, path);
-  await uploadBytes(imageRef, file);
-  const url = await getDownloadURL(imageRef);
-  return { url, path, name: file.name };
-}
-
-async function deleteStoredImage(path) {
-  if (!path) return;
-  try {
-    await deleteObject(ref(storage, path));
-  } catch (err) {
-    console.warn("Image delete skipped:", err);
-  }
-}
 
 async function loadGym(uid = currentUser.uid) {
   const snap = await getDoc(gymRef(uid));
@@ -209,8 +213,11 @@ async function saveGym(event) {
   }
 }
 
+let publishInFlight = false;
+
 async function togglePublish() {
-  if (!currentGym) return;
+  if (!currentGym || publishInFlight) return;
+  publishInFlight = true;
   const button = el("publish-gym-btn");
   setLoading(button, true, currentGym.published ? "Unpublishing..." : "Publishing...");
 
@@ -223,9 +230,11 @@ async function togglePublish() {
     fillGymForm(currentGym);
     showStatus(currentGym.published ? "Gym is now published." : "Gym is now unpublished.");
   } catch (err) {
-    showStatus("Could not update publish status.", "error");
+    console.error("togglePublish failed:", err);
+    showStatus(err.message || "Could not update publish status.", "error");
   } finally {
     setLoading(button, false);
+    publishInFlight = false;
   }
 }
 
@@ -247,7 +256,8 @@ async function deleteGym() {
     fillGymForm(null);
     showStatus("Gym profile deleted.");
   } catch (err) {
-    showStatus("Could not delete gym profile.", "error");
+    console.error("deleteGym failed:", err);
+    showStatus(err.message || "Could not delete gym profile.", "error");
   } finally {
     setLoading(button, false);
   }
@@ -275,6 +285,14 @@ function renderOwnerDashboard(gym) {
 async function initGymProfile() {
   await loadGym();
   fillGymForm(currentGym);
+
+  // Guard: onAuthStateChanged can fire more than once per page load
+  // (cached state, then a refreshed token). Without this guard these
+  // listeners stack up and every click fires the handler multiple times,
+  // racing itself and making Publish/Save look like they do nothing.
+  if (gymProfileInitialized) return;
+  gymProfileInitialized = true;
+
   el("gym-profile-form")?.addEventListener("submit", saveGym);
   el("publish-gym-btn")?.addEventListener("click", togglePublish);
   el("delete-gym-btn")?.addEventListener("click", deleteGym);
@@ -283,17 +301,30 @@ async function initGymProfile() {
 async function initOwnerDashboard() {
   await loadGym();
   renderOwnerDashboard(currentGym);
+  ownerDashboardInitialized = true;
 }
 
 onAuthStateChanged(auth, async (user) => {
   if (!user) return;
   currentUser = user;
 
-  if (page === "gym-profile.html") {
-    await initGymProfile();
-  }
+  try {
+    if (page === "gym-profile.html") {
+      await initGymProfile();
+    }
 
-  if (page === "ownersdashboard.html") {
-    await initOwnerDashboard();
+    if (page === "ownersdashboard.html") {
+      // Dashboard has no persistent listeners to duplicate, but re-fetching
+      // on every fire is wasted work once we already have the data.
+      if (!ownerDashboardInitialized) {
+        await initOwnerDashboard();
+      } else {
+        await loadGym();
+        renderOwnerDashboard(currentGym);
+      }
+    }
+  } catch (err) {
+    console.error("owner-gym.js init failed:", err);
+    showStatus("Could not load your gym data. Please refresh the page.", "error");
   }
 });
