@@ -96,7 +96,7 @@ function renderResults() {
   });
 
   if (!filtered.length) {
-    grid.innerHTML = `<p class="table-empty">No gyms match your search yet. Try adjusting your filters.</p>`;
+    grid.innerHTML = `<p class="table-empty">No gyms available yet. Check back soon!</p>`;
     return;
   }
 

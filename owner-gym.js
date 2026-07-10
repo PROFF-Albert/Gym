@@ -30,9 +30,7 @@ let gymProfileInitialized = false;
 
 let publishInFlight = false;
 const buttonOriginalText = new WeakMap();
-// ---------------------------------------------------------------------------
-// DOM helpers.
-// ---------------------------------------------------------------------------
+
 function el(id) {
   return document.getElementById(id);
 }

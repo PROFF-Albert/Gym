@@ -35,151 +35,116 @@
 
     <div class="page-offset"></div>
 
-    <div class="page-banner">
+    <div id="gym-page-state" class="section" style="display:none">
         <div class="container">
-            <h1>Gym Name</h1>
-            <p> Location &nbsp;·&nbsp; ★ Rating &nbsp;·&nbsp; From ₵—/mo</p>
+            <p class="table-loading">Loading gym details…</p>
         </div>
     </div>
 
-    <section class="section">
-        <div class="container">
-            <div class="profile-card">
-                <div class="info-grid">
-                    <div class="info-item">
-                        <label>Location</label>
-                        <p>—</p>
+    <div id="gym-main-content">
+
+        <div class="page-banner">
+            <div class="container">
+                <h1 id="gym-page-title">Gym Name</h1>
+                <p id="gym-banner-meta"> Location &nbsp;·&nbsp; ★ Rating &nbsp;·&nbsp; From ₵—/mo</p>
+            </div>
+        </div>
+
+        <section class="section">
+            <div class="container">
+                <div class="profile-card">
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <label>Location</label>
+                            <p id="gym-location-value">—</p>
+                        </div>
+                        <div class="info-item">
+                            <label>Rating</label>
+                            <p id="gym-price-value">—</p>
+                        </div>
+                        <div class="info-item">
+                            <label>Description</label>
+                            <p id="gym-description-value">—</p>
+                        </div>
                     </div>
-                    <div class="info-item">
-                        <label>Rating</label>
-                        <p>—</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" style="padding-top:0">
+            <div class="container">
+                <h2 class="section-title">Gallery</h2>
+                <div class="gallery-grid">
+                    <img id="gym-hero-image" class="gallery-hero" alt="Gym photo"
+                        style="width:100%;border-radius:12px;object-fit:cover;transition:opacity .15s ease">
+                </div>
+                <div id="gym-gallery-thumbs" class="gallery-thumbs"
+                    style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap"></div>
+            </div>
+        </section>
+
+        <section class="section" style="padding-top:0">
+            <div class="container">
+                <h2 class="section-title">Membership Plans</h2>
+                <div class="gym-grid" id="gym-plans-container">
+                </div>
+            </div>
+        </section>
+
+        <section class="section" style="padding-top:0">
+            <div class="container">
+                <h2 class="section-title">Gym Schedule</h2>
+                <div class="table-wrapper">
+                    <table class="schedule-table">
+                        <thead>
+                            <tr>
+                                <th>Day</th>
+                                <th>Opens</th>
+                                <th>Closes</th>
+                            </tr>
+                        </thead>
+                        <tbody id="gym-schedule-tbody">
+                            <tr>
+                                <td colspan="3" class="table-loading">Loading schedule…</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" style="padding-top:0">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title" style="margin-bottom:0">Contact</h2>
+                    <a href="user-subscription.html" class="btn">Join This Gym</a>
+                </div>
+                <div class="contact-block">
+                    <div class="contact-row">
+                        <span class="contact-icon"></span>
+                        <div><strong>Phone</strong><br><span id="gym-contact-phone">—</span></div>
                     </div>
-                    <div class="info-item">
-                        <label>Description</label>
-                        <p>—</p>
+                    <div class="contact-row">
+                        <span class="contact-icon"></span>
+                        <div><strong>Email</strong><br><span id="gym-contact-email">—</span></div>
+                    </div>
+                    <div class="contact-row">
+                        <span class="contact-icon"></span>
+                        <div><strong>Address</strong><br><span id="gym-contact-address">—</span></div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section class="section" style="padding-top:0">
-        <div class="container">
-            <h2 class="section-title">Gallery</h2>
-            <div class="gallery-grid">
-                <div class="gallery-placeholder"></div>
-                <div class="gallery-placeholder"></div>
-                <div class="gallery-placeholder"></div>
-            </div>
-        </div>
-    </section>
-
-    <section class="section" style="padding-top:0">
-        <div class="container">
-            <h2 class="section-title">Membership Plans</h2>
-            <div class="gym-grid">
-
-                <div class="plan-card">
-                    <h3>Daily Plan</h3>
-                    <div class="plan-price">₵—<span> / day</span></div>
-                    <p>Access to all gym facilities for a single day.</p>
-                    <button class="btn" onclick="window.location.href='user-subscription.html'">Join Now</button>
-                </div>
-
-                <div class="plan-card ">
-                    <h3>Weekly Plan</h3>
-                    <div class="plan-price">₵—<span> / week</span></div>
-                    <p>Seven days of unlimited access. Best short-term value.</p>
-                    <button class="btn" onclick="window.location.href='user-subscription.html'">Join Now</button>
-                </div>
-
-                <div class="plan-card featured">
-                    <h3>Monthly Plan</h3>
-                    <div class="plan-price">₵—<span> / month</span></div>
-                    <p>Full monthly access at the lowest daily rate.</p>
-                    <button class="btn" onclick="window.location.href='user-subscription.html'">Join Now</button>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <section class="section" style="padding-top:0">
-        <div class="container">
-            <h2 class="section-title">Gym Schedule</h2>
-            <div class="table-wrapper">
-                <table class="schedule-table">
-                    <thead>
-                        <tr>
-                            <th>Day</th>
-                            <th>Opens</th>
-                            <th>Closes</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Monday</td>
-                            <td>—</td>
-                            <td>—</td>
-                        </tr>
-                        <tr>
-                            <td>Tuesday</td>
-                            <td>—</td>
-                            <td>—</td>
-                        </tr>
-                        <tr>
-                            <td>Wednesday</td>
-                            <td>—</td>
-                            <td>—</td>
-                        </tr>
-                        <tr>
-                            <td>Thursday</td>
-                            <td>—</td>
-                            <td>—</td>
-                        </tr>
-                        <tr>
-                            <td>Friday</td>
-                            <td>—</td>
-                            <td>—</td>
-                        </tr>
-                        <tr>
-                            <td>Saturday</td>
-                            <td>—</td>
-                            <td>—</td>
-                        </tr>
-                        <tr>
-                            <td>Sunday</td>
-                            <td>—</td>
-                            <td>—</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </section>
-
-    <section class="section" style="padding-top:0">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title" style="margin-bottom:0">Contact</h2>
-                <a href="user-subscription.html" class="btn">Join This Gym</a>
-            </div>
-            <div class="contact-block">
-                <div class="contact-row">
-                    <span class="contact-icon"></span>
-                    <div><strong>Phone</strong><br><span>—</span></div>
-                </div>
-                <div class="contact-row">
-                    <span class="contact-icon"></span>
-                    <div><strong>Email</strong><br><span>—</span></div>
-                </div>
-                <div class="contact-row">
-                    <span class="contact-icon"></span>
-                    <div><strong>Address</strong><br><span>—</span></div>
+        <section class="section" id="gym-related-section" style="padding-top:0">
+            <div class="container">
+                <h2 class="section-title">Similar Gyms Nearby</h2>
+                <div class="gym-grid" id="gym-related-container">
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+
+    </div>
 
     <footer>
         <div class="container">
@@ -197,6 +162,7 @@
     </script>
 
     <script type="module" src="auth.js"></script>
+    <script type="module" src="gym-details.js"></script>
 </body>
 
 </html>
