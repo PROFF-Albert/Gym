@@ -1,6 +1,6 @@
-// owner-gym.js
-// ELEV8 Gym Marketplace - Owner Gym Management
-// Cloudinary (unsigned) for images, Cloud Firestore for data, Firebase Auth for identity.
+
+
+
 
 import { auth, db } from "./firebase-init.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
@@ -12,9 +12,9 @@ import {
   setDoc
 } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
 
-// ---------------------------------------------------------------------------
-// Cloudinary configuration (unsigned uploads only).
-// ---------------------------------------------------------------------------
+
+
+
 const CLOUD_NAME = "ddvgdqtb0";
 const UPLOAD_PRESET = "elevate8";
 const CLOUDINARY_UPLOAD_URL = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`;
@@ -49,9 +49,9 @@ function setAttr(node, attr, value) {
   if (node) node.setAttribute(attr, value);
 }
 
-// ---------------------------------------------------------------------------
-// Status messages.
-// ---------------------------------------------------------------------------
+
+
+
 function showStatus(message, type = "success") {
   const node = el("gym-status-message");
   if (!node) return;
@@ -68,9 +68,9 @@ function clearStatus() {
   node.style.display = "none";
 }
 
-// ---------------------------------------------------------------------------
-// Button loading state.
-// ---------------------------------------------------------------------------
+
+
+
 function setLoading(button, loading, loadingText) {
   if (!button) return;
 
@@ -90,10 +90,10 @@ function setLoading(button, loading, loadingText) {
   }
 }
 
-// ---------------------------------------------------------------------------
-// Cloudinary upload (unsigned).
-// Returns { url, publicId } on success.
-// ---------------------------------------------------------------------------
+
+
+
+
 async function uploadImage(file) {
   if (!file) {
     throw new Error("No file selected for upload.");
@@ -119,7 +119,7 @@ async function uploadImage(file) {
       const errBody = await response.json();
       detail = errBody?.error?.message ? ` (${errBody.error.message})` : "";
     } catch {
-      // ignore body parse errors
+      
     }
     throw new Error(`Image upload failed${detail}.`);
   }
@@ -136,9 +136,9 @@ async function uploadImage(file) {
   };
 }
 
-// ---------------------------------------------------------------------------
-// Firestore references and data access.
-// ---------------------------------------------------------------------------
+
+
+
 function gymRef(uid = currentUser?.uid) {
   if (!uid) throw new Error("Not signed in.");
   return doc(db, "gyms", uid);
@@ -155,9 +155,9 @@ async function loadGym(uid) {
   return currentGym;
 }
 
-// ---------------------------------------------------------------------------
-// Form rendering.
-// ---------------------------------------------------------------------------
+
+
+
 function fillGymForm(gym) {
   const fields = {
     "gym-name": gym?.name || "",
@@ -174,8 +174,8 @@ function fillGymForm(gym) {
     if (node) node.value = value;
   });
 
-  // Reset the file inputs so uploading the same file twice in a row still fires
-  // a change event.
+  
+  
   const logoInput = el("gym-logo");
   if (logoInput) logoInput.value = "";
   const galleryInput = el("gym-gallery");
@@ -226,7 +226,7 @@ function renderGymProfile(gym) {
   if (deleteBtn) deleteBtn.disabled = !exists;
 }
 
-// Minimal HTML escape for interpolated user content in preview templates.
+
 function escapeHtml(value) {
   return String(value)
     .replace(/&/g, "&amp;")
@@ -236,9 +236,9 @@ function escapeHtml(value) {
     .replace(/'/g, "&#39;");
 }
 
-// ---------------------------------------------------------------------------
-// Image change handlers - immediate local previews.
-// ---------------------------------------------------------------------------
+
+
+
 function handleLogoChange(event) {
   const file = event.target.files?.[0];
   const preview = el("gym-logo-preview");
@@ -276,9 +276,9 @@ function handleGalleryChange(event) {
     .join("");
 }
 
-// ---------------------------------------------------------------------------
-// Save gym profile.
-// ---------------------------------------------------------------------------
+
+
+
 async function saveGym(event) {
   event.preventDefault();
   const button = el("save-gym-btn");
@@ -304,9 +304,9 @@ async function saveGym(event) {
 
     const galleryUploads = [];
     for (const file of galleryFiles) {
-      // Sequential to avoid hammering Cloudinary with simultaneous unsigned
-      // uploads on slow connections.
-      // eslint-disable-next-line no-await-in-loop
+      
+      
+      
       galleryUploads.push(await uploadImage(file));
     }
 
@@ -319,6 +319,7 @@ async function saveGym(event) {
     const data = {
       ownerId: currentUser.uid,
       name,
+      nameLower: name.toLowerCase(),
       location,
       address: formValue("gym-address"),
       phone: formValue("gym-phone"),
@@ -362,9 +363,9 @@ async function saveGym(event) {
   }
 }
 
-// ---------------------------------------------------------------------------
-// Publish / unpublish toggle.
-// ---------------------------------------------------------------------------
+
+
+
 async function togglePublish() {
   if (!currentUser) {
     showStatus("You must be signed in to publish a gym.", "error");
@@ -406,10 +407,10 @@ async function togglePublish() {
   }
 }
 
-// ---------------------------------------------------------------------------
-// Delete gym (Firestore only; Cloudinary images are not deletable via
-// unsigned uploads from the browser).
-// ---------------------------------------------------------------------------
+
+
+
+
 async function deleteGym() {
   if (!currentUser) {
     showStatus("You must be signed in to delete a gym.", "error");
@@ -442,14 +443,14 @@ async function deleteGym() {
   }
 }
 
-// ---------------------------------------------------------------------------
-// Page initialization.
-// ---------------------------------------------------------------------------
+
+
+
 async function initGymProfile() {
   if (gymProfileInitialized) return;
   gymProfileInitialized = true;
 
-  // Initial fetch & form fill.
+  
   try {
     await loadGym();
     fillGymForm(currentGym);
@@ -458,7 +459,7 @@ async function initGymProfile() {
     showStatus("Could not load your gym data. Please refresh the page.", "error");
   }
 
-  // Wire up listeners exactly once per page load.
+  
   const form = el("gym-profile-form");
   if (form) form.addEventListener("submit", saveGym);
 

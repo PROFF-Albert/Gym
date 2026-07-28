@@ -1,8 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600;700&display=swap');
 
-/* ===========================
-   ROOT VARIABLES
-=========================== */
+
 :root {
     --primary: #023341;
     --accent: #FE5516;
@@ -22,9 +20,7 @@
     --nav-height: 80px;
 }
 
-/* ===========================
-   RESET
-=========================== */
+
 *,
 *::before,
 *::after {
@@ -72,18 +68,13 @@ textarea {
     font-family: inherit;
 }
 
-/* ===========================
-   CONTAINER
-=========================== */
+
 .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 24px;
 }
 
-/* ===========================
-   NAVBAR — TRANSPARENT (homepage)
-=========================== */
 header {
     position: fixed;
     top: 0;
@@ -96,13 +87,13 @@ header {
     transition: background .35s ease, box-shadow .35s ease, backdrop-filter .35s ease;
 }
 
-/* Default: transparent for homepage */
+
 header.nav-transparent {
     background: transparent;
     border-bottom: none;
 }
 
-/* Scrolled / solid */
+
 header.nav-solid,
 header.nav-scrolled {
     background: rgba(2, 51, 65, .92);
@@ -112,7 +103,7 @@ header.nav-scrolled {
     border-bottom: 1px solid rgba(255, 255, 255, .08);
 }
 
-/* Inner pages always solid */
+
 header.nav-inner {
     background: var(--primary);
     border-bottom: 1px solid rgba(255, 255, 255, .10);
@@ -172,7 +163,7 @@ header.nav-inner {
     flex-shrink: 0;
 }
 
-/* Hamburger */
+
 .hamburger {
     display: none;
     flex-direction: column;
@@ -196,7 +187,7 @@ header.nav-inner {
     background: rgba(255, 255, 255, .1);
 }
 
-/* Mobile nav overlay */
+
 .mobile-nav {
     display: none;
     position: fixed;
@@ -236,9 +227,9 @@ header.nav-inner {
     text-align: center;
 }
 
-/* ===========================
-   BUTTONS
-=========================== */
+
+
+
 .btn {
     display: inline-flex;
     align-items: center;
@@ -311,16 +302,16 @@ header.nav-inner {
     box-shadow: 0 8px 20px rgba(229, 62, 62, .3);
 }
 
-/* ===========================
-   PAGE OFFSET (for fixed header)
-=========================== */
+
+
+
 .page-offset {
     padding-top: var(--nav-height);
 }
 
-/* ===========================
-   HERO
-=========================== */
+
+
+
 .hero {
     height: 100vh;
     min-height: 620px;
@@ -483,9 +474,9 @@ header.nav-inner {
     transform: scale(1.08);
 }
 
-/* ===========================
-   HOME PAGE
-=========================== */
+
+
+
 .home-strip {
     background: var(--primary);
     color: #fff;
@@ -596,9 +587,7 @@ header.nav-inner {
     color: rgba(252, 245, 227, .76);
 }
 
-/* ===========================
-   SECTIONS
-=========================== */
+
 .section {
     padding: 80px 0;
 }
@@ -630,9 +619,7 @@ header.nav-inner {
     flex-wrap: wrap;
 }
 
-/* ===========================
-   GYM SEARCH / FILTERS
-=========================== */
+
 .search-bar {
     display: grid;
     grid-template-columns: 2fr 1fr 1fr auto;
@@ -667,9 +654,7 @@ header.nav-inner {
     border-color: var(--accent);
 }
 
-/* ===========================
-   GYM GRID & CARDS
-=========================== */
+
 .gym-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -700,7 +685,7 @@ header.nav-inner {
     flex-shrink: 0;
 }
 
-/* Placeholder for empty image */
+
 .gym-card-img-placeholder {
     height: 210px;
     background: linear-gradient(135deg, var(--light) 0%, #ddd7c8 100%);
@@ -766,9 +751,7 @@ header.nav-inner {
     width: 100%;
 }
 
-/* ===========================
-   PLAN CARDS
-=========================== */
+
 .plan-card {
     background: #fff;
     border-radius: var(--radius);
@@ -840,9 +823,7 @@ header.nav-inner {
     width: 100%;
 }
 
-/* ===========================
-   DASHBOARD STATS
-=========================== */
+
 .stats-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -896,9 +877,7 @@ header.nav-inner {
     margin-bottom: 4px;
 }
 
-/* ===========================
-   QUICK ACTIONS
-=========================== */
+
 .action-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -908,34 +887,59 @@ header.nav-inner {
 .action-card {
     background: #fff;
     border-radius: var(--radius);
-    padding: 24px 20px;
+    padding: 24px 20px 22px;
     box-shadow: var(--shadow-sm);
     border: 1px solid var(--border);
-    text-align: center;
-    transition: transform .2s, box-shadow .2s;
+    text-align: left;
+    transition: transform .2s, box-shadow .2s, border-color .2s;
     cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-height: 210px;
+    overflow: hidden;
 }
 
 .action-card:hover {
     transform: translateY(-4px);
     box-shadow: var(--shadow);
+    border-color: rgba(254, 85, 22, .22);
 }
 
 .action-card .action-icon {
-    font-size: 28px;
-    margin-bottom: 10px;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(254, 85, 22, .14);
+    color: var(--accent);
+    font-size: 16px;
+    font-weight: 800;
+    margin-bottom: 4px;
 }
 
 .action-card h4 {
-    font-size: 14px;
-    font-weight: 600;
+    font-size: 16px;
+    font-weight: 700;
     color: var(--primary);
-    margin-bottom: 8px;
+    margin-bottom: 0;
 }
 
-/* ===========================
-   TABLES
-=========================== */
+.action-card p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--muted);
+    flex: 1;
+    margin-bottom: 4px;
+}
+
+.action-card .btn {
+    width: 100%;
+}
+
+
 .table-wrapper {
     overflow-x: auto;
     background: #fff;
@@ -987,7 +991,7 @@ tbody tr:hover {
     background: #fffaf7;
 }
 
-/* Status badges */
+
 .badge {
     display: inline-flex;
     align-items: center;
@@ -1020,9 +1024,7 @@ tbody tr:hover {
     color: #1e40af;
 }
 
-/* ===========================
-   TOAST MESSAGES (form-error / form-success)
-=========================== */
+
 .form-toast {
     position: fixed;
     bottom: 24px;
@@ -1070,9 +1072,7 @@ tbody tr:hover {
     }
 }
 
-/* ===========================
-   FORM ALERTS
-=========================== */
+
 .form-alert {
     padding: 14px 18px;
     border-radius: var(--radius-sm);
@@ -1093,9 +1093,7 @@ tbody tr:hover {
     border: 1px solid #fecaca;
 }
 
-/* ===========================
-   ADMIN TABS
-=========================== */
+
 .admin-tabs {
     display: flex;
     gap: 8px;
@@ -1200,7 +1198,7 @@ tbody tr:hover {
     font-style: italic;
 }
 
-/* Confirm modal */
+
 .admin-modal-overlay {
     position: fixed;
     inset: 0;
@@ -1245,9 +1243,7 @@ tbody tr:hover {
     justify-content: flex-end;
 }
 
-/* ===========================
-   FORMS
-=========================== */
+
 .form-page {
     min-height: calc(100vh - var(--nav-height));
     display: flex;
@@ -1367,9 +1363,7 @@ textarea {
     background: var(--light);
 }
 
-/* ===========================
-   PROFILE CARD
-=========================== */
+
 .profile-card {
     background: #fff;
     border-radius: var(--radius);
@@ -1434,13 +1428,32 @@ textarea {
     color: var(--primary);
 }
 
-/* ===========================
-   PAGE HEADER BANNER
-=========================== */
+
 .page-banner {
     background: var(--primary);
-    padding: 40px 0;
+    padding: 42px 0 38px;
     margin-bottom: 0;
+}
+
+.page-banner .container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.banner-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    padding: 7px 12px;
+    border-radius: 999px;
+    background: rgba(254, 85, 22, .16);
+    border: 1px solid rgba(254, 85, 22, .28);
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
 }
 
 .page-banner h1 {
@@ -1455,12 +1468,31 @@ textarea {
 .page-banner p {
     font-size: 15px;
     color: rgba(252, 245, 227, .7);
-    margin-top: 6px;
+    margin-top: 0;
+    max-width: 680px;
 }
 
-/* ===========================
-   CURRENT GYM CARD (user dashboard)
-=========================== */
+.banner-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 8px;
+}
+
+.banner-pill {
+    display: inline-flex;
+    align-items: center;
+    min-height: 36px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, .08);
+    border: 1px solid rgba(255, 255, 255, .14);
+    color: rgba(252, 245, 227, .92);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+
 .current-gym-card {
     background: #fff;
     border-radius: var(--radius);
@@ -1469,21 +1501,30 @@ textarea {
     overflow: hidden;
     display: flex;
     gap: 0;
+    align-items: stretch;
 }
 
 .current-gym-img {
     width: 260px;
     flex-shrink: 0;
-    background: var(--light);
+    background:
+        linear-gradient(160deg, rgba(2, 51, 65, .92), rgba(2, 51, 65, .72)),
+        var(--light);
     object-fit: cover;
+    color: #fff;
+    font-size: 54px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .current-gym-body {
-    padding: 28px;
+    padding: 30px 28px;
     display: flex;
     flex-direction: column;
     gap: 8px;
     justify-content: center;
+    flex: 1;
 }
 
 .current-gym-body h3 {
@@ -1498,13 +1539,11 @@ textarea {
     color: var(--muted);
 }
 
-/* ===========================
-   NOTIFICATION CARD
-=========================== */
+
 .notification-card {
     background: #fff;
     border-radius: var(--radius);
-    padding: 20px 24px;
+    padding: 20px 22px;
     box-shadow: var(--shadow-sm);
     border: 1px solid var(--border);
     font-size: 14px;
@@ -1512,15 +1551,14 @@ textarea {
     display: flex;
     align-items: center;
     gap: 12px;
+    border-left: 4px solid var(--accent);
 }
 
 .notification-card .notif-icon {
     font-size: 20px;
 }
 
-/* ===========================
-   CARD (generic)
-=========================== */
+
 .card {
     background: #fff;
     padding: 28px;
@@ -1533,9 +1571,60 @@ textarea {
     box-shadow: var(--shadow);
 }
 
-/* ===========================
-   SEARCH INPUT (standalone)
-=========================== */
+.checkin-card,
+.attendance-card {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.checkin-card {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.checkin-copy h3 {
+    font-family: var(--font-display);
+    font-size: 28px;
+    line-height: 1.05;
+    text-transform: uppercase;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.checkin-copy p {
+    color: var(--muted);
+    max-width: 580px;
+}
+
+.checkin-meta,
+.checkin-hint {
+    font-size: 13px;
+    color: var(--muted);
+}
+
+.checkin-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+    min-width: 240px;
+}
+
+.checkin-actions .btn {
+    width: 100%;
+}
+
+.attendance-summary {
+    margin-top: 0;
+}
+
+.attendance-table {
+    margin-top: 0;
+}
+
+
 .search-input-wrap {
     position: relative;
     margin-bottom: 24px;
@@ -1556,9 +1645,7 @@ textarea {
     pointer-events: none;
 }
 
-/* ===========================
-   FOOTER
-=========================== */
+
 footer {
     background: var(--primary);
     color: rgba(252, 245, 227, .6);
@@ -1606,9 +1693,7 @@ footer strong {
     color: var(--accent);
 }
 
-/* ===========================
-   SCHEDULE TABLE override
-=========================== */
+
 .schedule-table thead {
     background: var(--primary);
 }
@@ -1621,9 +1706,7 @@ footer strong {
     font-weight: 600;
 }
 
-/* ===========================
-   GALLERY GRID
-=========================== */
+
 .gallery-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -1649,9 +1732,7 @@ footer strong {
     color: var(--muted);
 }
 
-/* ===========================
-   CONTACT BLOCK
-=========================== */
+
 .contact-block {
     background: #fff;
     border-radius: var(--radius);
@@ -1685,9 +1766,7 @@ footer strong {
     color: var(--muted);
 }
 
-/* ===========================
-   RESPONSIVE
-=========================== */
+
 @media (max-width: 1200px) {
     .gym-grid {
         grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -1820,6 +1899,15 @@ footer strong {
         padding: 28px 0;
     }
 
+    .banner-pills {
+        gap: 8px;
+    }
+
+    .banner-pill {
+        width: 100%;
+        justify-content: space-between;
+    }
+
     .home-strip {
         padding: 24px 0;
     }
@@ -1834,6 +1922,17 @@ footer strong {
 
     .preview-plan {
         grid-template-columns: 1fr;
+    }
+
+    .checkin-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .checkin-actions {
+        width: 100%;
+        align-items: flex-start;
+        min-width: 0;
     }
 }
 
@@ -1852,6 +1951,10 @@ footer strong {
 
     .plan-card.featured::before {
         display: none;
+    }
+
+    .current-gym-body {
+        padding: 24px 20px;
     }
 
     table {

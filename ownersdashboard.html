@@ -15,7 +15,7 @@
             <a class="logo" href="ownersdashboard.html">ELEV<span>8</span></a>
             <ul class="nav-links">
                 <li><a href="ownersdashboard.html" class="active">Dashboard</a></li>
-                <li><a href="member.html">Members</a></li>
+                <li><a href="owners-members.html">Members</a></li>
                 <li><a href="subscription.html">Subscriptions</a></li>
                 <li><a href="payment.html">Payments</a></li>
                 <li><a href="gym-profile.html">Gym Profile</a></li>
@@ -32,7 +32,7 @@
 
     <nav class="mobile-nav" id="mobile-nav">
         <a href="ownersdashboard.html">Dashboard</a>
-        <a href="member.html">Members</a>
+        <a href="owners-members.html">Members</a>
         <a href="subscription.html">Subscriptions</a>
         <a href="payment.html">Payments</a>
         <a href="gym-profile.html">Gym Profile</a>
@@ -44,8 +44,14 @@
 
     <div class="page-banner">
         <div class="container">
+            <div class="banner-eyebrow">Owner Dashboard</div>
             <h1>Owner Dashboard</h1>
             <p>Manage your gym, members, and revenue from one place.</p>
+            <div class="banner-pills">
+                <span class="banner-pill">Members: 0</span>
+                <span class="banner-pill">Attendance: 0 today</span>
+                <span class="banner-pill">Revenue: ₵0</span>
+            </div>
         </div>
     </div>
 
@@ -61,7 +67,7 @@
                 <div class="stat-card">
 
                     <div class="stat-label">Today's Attendance</div>
-                    <div class="stat-value">0</div>
+                    <div class="stat-value" id="dashboard-attendance-count">0</div>
                 </div>
                 <div class="stat-card">
 
@@ -94,26 +100,60 @@
                 </div>
             </div>
 
+            <div class="section-header">
+                <h2 class="section-title" style="margin-bottom:0">Today's Check-ins</h2>
+                <button class="btn btn-secondary btn-sm" type="button" id="attendance-refresh-btn">Refresh</button>
+            </div>
+            <div class="card attendance-card" style="margin-bottom:48px">
+                <div class="banner-pills attendance-summary" id="attendance-summary">
+                    <span class="banner-pill">Today: 0</span>
+                    <span class="banner-pill">Unique members: 0</span>
+                    <span class="banner-pill">Latest: —</span>
+                </div>
+                <div class="table-wrapper attendance-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Time</th>
+                                <th>Member</th>
+                                <th>Gym</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="attendance-table-body">
+                            <tr>
+                                <td colspan="4" style="text-align:center;color:var(--muted);padding:32px">No check-ins
+                                    recorded yet.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
             <h2 class="section-title">Quick Actions</h2>
             <div class="action-grid">
-                <div class="action-card" onclick="window.location.href='member.html'">
-                    <div class="action-icon"></div>
+                <div class="action-card" onclick="window.location.href='owners-members.html'">
+                    <div class="action-icon">M</div>
                     <h4>Members</h4>
+                    <p>Manage member records, access, and attendance in one place.</p>
                     <button class="btn btn-sm">Manage</button>
                 </div>
                 <div class="action-card" onclick="window.location.href='subscription.html'">
-                    <div class="action-icon"></div>
+                    <div class="action-icon">S</div>
                     <h4>Subscriptions</h4>
+                    <p>Review active plans, expirations, and renewals quickly.</p>
                     <button class="btn btn-sm">View</button>
                 </div>
                 <div class="action-card" onclick="window.location.href='payment.html'">
-                    <div class="action-icon"></div>
+                    <div class="action-icon">P</div>
                     <h4>Payments</h4>
+                    <p>Track transactions and reconcile revenue without digging around.</p>
                     <button class="btn btn-sm">View</button>
                 </div>
                 <div class="action-card" onclick="window.location.href='gym-profile.html'">
-
+                    <div class="action-icon">G</div>
                     <h4>Gym Profile</h4>
+                    <p>Keep your brand, pricing, and public profile up to date.</p>
                     <button class="btn btn-sm">Edit</button>
                 </div>
             </div>
@@ -138,7 +178,8 @@
 
     <script type="module" src="auth.js"></script>
     <script type="module" src="owner-gym.js"></script>
-    <script>(function () { function c() { var b = a.contentDocument || a.contentWindow.document; if (b) { var d = b.createElement('script'); d.innerHTML = "window.__CF$cv$params={r:'a1854614abb023a2',t:'MTc4MzU3ODU2MA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);"; b.getElementsByTagName('head')[0].appendChild(d) } } if (document.body) { var a = document.createElement('iframe'); a.height = 1; a.width = 1; a.style.position = 'absolute'; a.style.top = 0; a.style.left = 0; a.style.border = 'none'; a.style.visibility = 'hidden'; document.body.appendChild(a); if ('loading' !== document.readyState) c(); else if (window.addEventListener) document.addEventListener('DOMContentLoaded', c); else { var e = document.onreadystatechange || function () { }; document.onreadystatechange = function (b) { e(b); 'loading' !== document.readyState && (document.onreadystatechange = e, c()) } } } })();</script>
+    <script type="module" src="checkin.js"></script>
+
 </body>
 
 </html>

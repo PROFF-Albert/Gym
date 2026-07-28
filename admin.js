@@ -1,14 +1,42 @@
-
-
 import { auth, db } from "./firebase-init.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
 import {
   collection,
   deleteDoc,
   doc,
+  getDoc,
   getDocs,
+  limit,
+  query,
+  startAfter,
   updateDoc
 } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const PAGE_SIZE = 25;
 
 const money = new Intl.NumberFormat("en-GH", {
   style: "currency",
@@ -16,12 +44,22 @@ const money = new Intl.NumberFormat("en-GH", {
   maximumFractionDigits: 0
 });
 
+
 let allUsers = [];
 let allGyms = [];
 let allSubs = [];
 let allPayments = [];
 
-let pendingAction = null; 
+
+
+const pageState = {
+  users: { cursor: null, done: false, loading: false },
+  gyms: { cursor: null, done: false, loading: false },
+  subscriptions: { cursor: null, done: false, loading: false },
+  payments: { cursor: null, done: false, loading: false }
+};
+
+let pendingAction = null;
 
 function el(id) {
   return document.getElementById(id);
@@ -65,7 +103,6 @@ function statusBadge(status) {
   return `<span class="badge ${cls}">${normalized}</span>`;
 }
 
-
 function openConfirm(title, message, onConfirm) {
   el("admin-modal-title").textContent = title;
   el("admin-modal-text").textContent = message;
@@ -89,21 +126,55 @@ el("admin-modal-confirm")?.addEventListener("click", async () => {
   await action();
 });
 
-// ---------- Data loading ----------
 
-async function loadAll() {
-  const [usersSnap, gymsSnap, subsSnap, paymentsSnap] = await Promise.all([
-    getDocs(collection(db, "users")),
-    getDocs(collection(db, "gyms")),
-    getDocs(collection(db, "subscriptions")).catch(() => ({ docs: [] })),
-    getDocs(collection(db, "payments")).catch(() => ({ docs: [] }))
-  ]);
 
-  allUsers = usersSnap.docs.map((d) => ({ id: d.id, ...d.data() }));
-  allGyms = gymsSnap.docs.map((d) => ({ id: d.id, ...d.data() }));
-  allSubs = subsSnap.docs ? subsSnap.docs.map((d) => ({ id: d.id, ...d.data() })) : [];
-  allPayments = paymentsSnap.docs ? paymentsSnap.docs.map((d) => ({ id: d.id, ...d.data() })) : [];
+
+
+
+
+
+async function fetchNextPage(collectionName, targetArrayGetter, targetArraySetter) {
+  const state = pageState[collectionName];
+  if (state.loading || state.done) return false;
+
+  state.loading = true;
+  try {
+    const clauses = [limit(PAGE_SIZE)];
+    if (state.cursor) clauses.push(startAfter(state.cursor));
+
+    const snap = await getDocs(query(collection(db, collectionName), ...clauses));
+
+    if (snap.docs.length < PAGE_SIZE) state.done = true;
+    if (snap.docs.length) state.cursor = snap.docs[snap.docs.length - 1];
+
+    const newRows = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+    targetArraySetter([...targetArrayGetter(), ...newRows]);
+    return snap.docs.length > 0;
+  } finally {
+    state.loading = false;
+  }
 }
+
+async function loadMoreUsers() {
+  return fetchNextPage("users", () => allUsers, (v) => { allUsers = v; });
+}
+async function loadMoreGyms() {
+  return fetchNextPage("gyms", () => allGyms, (v) => { allGyms = v; });
+}
+async function loadMoreSubs() {
+  return fetchNextPage("subscriptions", () => allSubs, (v) => { allSubs = v; });
+}
+async function loadMorePayments() {
+  return fetchNextPage("payments", () => allPayments, (v) => { allPayments = v; });
+}
+
+
+
+
+
+
+
+
 
 function renderStats() {
   const members = allUsers.filter((u) => u.role === "member");
@@ -114,15 +185,76 @@ function renderStats() {
     .filter((p) => (p.status || "").toLowerCase() === "success")
     .reduce((sum, p) => sum + (Number(p.amount) || 0), 0);
 
-  el("stat-members").textContent = members.length;
-  el("stat-owners").textContent = owners.length;
-  el("stat-gyms").textContent = allGyms.length;
-  el("stat-published").textContent = published.length;
-  el("stat-subs").textContent = activeSubs.length;
-  el("stat-revenue").textContent = money.format(revenue);
+  const suffix = (state) => (state.done ? "" : "+");
+
+  el("stat-members").textContent = members.length + suffix(pageState.users);
+  el("stat-owners").textContent = owners.length + suffix(pageState.users);
+  el("stat-gyms").textContent = allGyms.length + suffix(pageState.gyms);
+  el("stat-published").textContent = published.length + suffix(pageState.gyms);
+  el("stat-subs").textContent = activeSubs.length + suffix(pageState.subscriptions);
+  el("stat-revenue").textContent = money.format(revenue) + suffix(pageState.payments);
 }
 
-// ---------- Members ----------
+
+
+
+
+
+function ensureLoadMoreButton(panelId, tbodyId, onLoadMore) {
+  const panel = el(panelId);
+  if (!panel) return null;
+
+  const btnId = `${tbodyId}-load-more`;
+  let btn = el(btnId);
+  if (!btn) {
+    btn = document.createElement("button");
+    btn.id = btnId;
+    btn.type = "button";
+    btn.className = "btn btn-sm";
+    btn.style.marginTop = "16px";
+    btn.textContent = "Load More";
+    panel.appendChild(btn);
+  }
+
+  btn.onclick = async () => {
+    btn.disabled = true;
+    const originalText = btn.textContent;
+    btn.textContent = "Loading...";
+    try {
+      await onLoadMore();
+    } catch (err) {
+      console.error(`Load more failed for ${tbodyId}:`, err);
+      showStatus("Could not load more rows. Please try again.", "error");
+    } finally {
+      btn.disabled = false;
+      btn.textContent = originalText;
+    }
+  };
+
+  return btn;
+}
+
+function updateLoadMoreVisibility(btn, state) {
+  if (!btn) return;
+  btn.style.display = state.done ? "none" : "";
+}
+
+
+
+
+function ensureLoadedOnlyNote(inputId) {
+  const input = el(inputId);
+  if (!input || input.dataset.loadedNoteAdded) return;
+  input.dataset.loadedNoteAdded = "1";
+
+  const note = document.createElement("div");
+  note.className = "form-hint";
+  note.style.cssText = "font-size:12px;color:var(--muted);margin-top:4px";
+  note.textContent = "Searches rows loaded so far. Use Load More to bring in additional rows.";
+  input.insertAdjacentElement("afterend", note);
+}
+
+
 
 function renderMembers() {
   const search = (el("members-search")?.value || "").toLowerCase();
@@ -141,32 +273,40 @@ function renderMembers() {
 
   const tbody = el("members-tbody");
   if (!rows.length) {
-    tbody.innerHTML = `<tr><td colspan="5" class="table-empty">No members found.</td></tr>`;
-    return;
+    tbody.innerHTML = `<tr><td colspan="5" class="table-empty">${allUsers.length ? "No members match the loaded rows." : "No members found."}</td></tr>`;
+  } else {
+    tbody.innerHTML = rows.map((u) => {
+      const status = (u.status || "active").toLowerCase();
+      const isSuspended = status === "suspended";
+      return `
+        <tr>
+          <td>${u.firstName || ""} ${u.lastName || ""}</td>
+          <td>${u.email || "-"}</td>
+          <td>${formatDate(u.createdAt)}</td>
+          <td>${statusBadge(status)}</td>
+          <td>
+            <div class="row-actions">
+              <button class="btn btn-sm" data-action="toggle-user-status" data-id="${u.id}" data-next="${isSuspended ? "active" : "suspended"}">
+                ${isSuspended ? "Activate" : "Suspend"}
+              </button>
+              <button class="btn btn-sm btn-danger" data-action="delete-user" data-id="${u.id}" data-name="${(u.firstName || "") + " " + (u.lastName || "")}">Delete</button>
+            </div>
+          </td>
+        </tr>`;
+    }).join("");
   }
 
-  tbody.innerHTML = rows.map((u) => {
-    const status = (u.status || "active").toLowerCase();
-    const isSuspended = status === "suspended";
-    return `
-      <tr>
-        <td>${u.firstName || ""} ${u.lastName || ""}</td>
-        <td>${u.email || "-"}</td>
-        <td>${formatDate(u.createdAt)}</td>
-        <td>${statusBadge(status)}</td>
-        <td>
-          <div class="row-actions">
-            <button class="btn btn-sm" data-action="toggle-user-status" data-id="${u.id}" data-next="${isSuspended ? "active" : "suspended"}">
-              ${isSuspended ? "Activate" : "Suspend"}
-            </button>
-            <button class="btn btn-sm btn-danger" data-action="delete-user" data-id="${u.id}" data-name="${(u.firstName || "") + " " + (u.lastName || "")}">Delete</button>
-          </div>
-        </td>
-      </tr>`;
-  }).join("");
+  ensureLoadedOnlyNote("members-search");
+  const btn = ensureLoadMoreButton("panel-members", "members-tbody", async () => {
+    await loadMoreUsers();
+    renderMembers();
+    renderOwners();
+    renderStats();
+  });
+  updateLoadMoreVisibility(btn, pageState.users);
 }
 
-// ---------- Gym Owners ----------
+
 
 function renderOwners() {
   const search = (el("owners-search")?.value || "").toLowerCase();
@@ -185,34 +325,44 @@ function renderOwners() {
 
   const tbody = el("owners-tbody");
   if (!rows.length) {
-    tbody.innerHTML = `<tr><td colspan="6" class="table-empty">No gym owners found.</td></tr>`;
-    return;
+    tbody.innerHTML = `<tr><td colspan="6" class="table-empty">${allUsers.length ? "No gym owners match the loaded rows." : "No gym owners found."}</td></tr>`;
+  } else {
+    tbody.innerHTML = rows.map((u) => {
+      
+      
+      const gym = allGyms.find((g) => g.ownerId === u.id || g.id === u.id);
+      const status = (u.status || "active").toLowerCase();
+      const isSuspended = status === "suspended";
+      return `
+        <tr>
+          <td>${u.firstName || ""} ${u.lastName || ""}</td>
+          <td>${u.email || "-"}</td>
+          <td>${gym ? gym.name : "-"}</td>
+          <td>${formatDate(u.createdAt)}</td>
+          <td>${statusBadge(status)}</td>
+          <td>
+            <div class="row-actions">
+              <button class="btn btn-sm" data-action="toggle-user-status" data-id="${u.id}" data-next="${isSuspended ? "active" : "suspended"}">
+                ${isSuspended ? "Activate" : "Suspend"}
+              </button>
+              <button class="btn btn-sm btn-danger" data-action="delete-user" data-id="${u.id}" data-name="${(u.firstName || "") + " " + (u.lastName || "")}">Delete</button>
+            </div>
+          </td>
+        </tr>`;
+    }).join("");
   }
 
-  tbody.innerHTML = rows.map((u) => {
-    const gym = allGyms.find((g) => g.ownerId === u.id || g.id === u.id);
-    const status = (u.status || "active").toLowerCase();
-    const isSuspended = status === "suspended";
-    return `
-      <tr>
-        <td>${u.firstName || ""} ${u.lastName || ""}</td>
-        <td>${u.email || "-"}</td>
-        <td>${gym ? gym.name : "No gym yet"}</td>
-        <td>${formatDate(u.createdAt)}</td>
-        <td>${statusBadge(status)}</td>
-        <td>
-          <div class="row-actions">
-            <button class="btn btn-sm" data-action="toggle-user-status" data-id="${u.id}" data-next="${isSuspended ? "active" : "suspended"}">
-              ${isSuspended ? "Activate" : "Suspend"}
-            </button>
-            <button class="btn btn-sm btn-danger" data-action="delete-user" data-id="${u.id}" data-name="${(u.firstName || "") + " " + (u.lastName || "")}">Delete</button>
-          </div>
-        </td>
-      </tr>`;
-  }).join("");
+  ensureLoadedOnlyNote("owners-search");
+  const btn = ensureLoadMoreButton("panel-owners", "owners-tbody", async () => {
+    await loadMoreUsers();
+    renderMembers();
+    renderOwners();
+    renderStats();
+  });
+  updateLoadMoreVisibility(btn, pageState.users);
 }
 
-// ---------- Gyms ----------
+
 
 function renderGyms() {
   const search = (el("gyms-search")?.value || "").toLowerCase();
@@ -229,33 +379,44 @@ function renderGyms() {
 
   const tbody = el("gyms-tbody");
   if (!rows.length) {
-    tbody.innerHTML = `<tr><td colspan="6" class="table-empty">No gyms found.</td></tr>`;
-    return;
+    tbody.innerHTML = `<tr><td colspan="6" class="table-empty">${allGyms.length ? "No gyms match the loaded rows." : "No gyms found."}</td></tr>`;
+  } else {
+    tbody.innerHTML = rows.map((g) => {
+      
+      
+      
+      const owner = allUsers.find((u) => u.id === g.ownerId);
+      const status = g.published ? "published" : "draft";
+      return `
+        <tr>
+          <td>${g.name || "-"}</td>
+          <td>${owner ? `${owner.firstName || ""} ${owner.lastName || ""}` : "-"}</td>
+          <td>${g.location || "-"}</td>
+          <td>${g.priceFrom ? money.format(g.priceFrom) : "-"}</td>
+          <td>${statusBadge(status)}</td>
+          <td>
+            <div class="row-actions">
+              <button class="btn btn-sm" data-action="toggle-gym-publish" data-id="${g.id}" data-next="${!g.published}">
+                ${g.published ? "Unpublish" : "Publish"}
+              </button>
+              <button class="btn btn-sm btn-danger" data-action="delete-gym" data-id="${g.id}" data-name="${g.name || "this gym"}">Delete</button>
+            </div>
+          </td>
+        </tr>`;
+    }).join("");
   }
 
-  tbody.innerHTML = rows.map((g) => {
-    const owner = allUsers.find((u) => u.id === g.ownerId);
-    const status = g.published ? "published" : "draft";
-    return `
-      <tr>
-        <td>${g.name || "-"}</td>
-        <td>${owner ? `${owner.firstName || ""} ${owner.lastName || ""}` : "-"}</td>
-        <td>${g.location || "-"}</td>
-        <td>${g.priceFrom ? money.format(g.priceFrom) : "-"}</td>
-        <td>${statusBadge(status)}</td>
-        <td>
-          <div class="row-actions">
-            <button class="btn btn-sm" data-action="toggle-gym-publish" data-id="${g.id}" data-next="${!g.published}">
-              ${g.published ? "Unpublish" : "Publish"}
-            </button>
-            <button class="btn btn-sm btn-danger" data-action="delete-gym" data-id="${g.id}" data-name="${g.name || "this gym"}">Delete</button>
-          </div>
-        </td>
-      </tr>`;
-  }).join("");
+  ensureLoadedOnlyNote("gyms-search");
+  const btn = ensureLoadMoreButton("panel-gyms", "gyms-tbody", async () => {
+    await loadMoreGyms();
+    renderGyms();
+    renderOwners();
+    renderStats();
+  });
+  updateLoadMoreVisibility(btn, pageState.gyms);
 }
 
-// ---------- Subscriptions ----------
+
 
 function renderSubs() {
   const search = (el("subs-search")?.value || "").toLowerCase();
@@ -272,32 +433,39 @@ function renderSubs() {
 
   const tbody = el("subs-tbody");
   if (!rows.length) {
-    tbody.innerHTML = `<tr><td colspan="7" class="table-empty">${allSubs.length ? "No subscriptions match." : "No subscriptions yet."}</td></tr>`;
-    return;
+    tbody.innerHTML = `<tr><td colspan="7" class="table-empty">${allSubs.length ? "No subscriptions match the loaded rows." : "No subscriptions yet."}</td></tr>`;
+  } else {
+    tbody.innerHTML = rows.map((s) => {
+      const status = (s.status || "active").toLowerCase();
+      return `
+        <tr>
+          <td>${s.memberName || "-"}</td>
+          <td>${s.gymName || "-"}</td>
+          <td>${s.plan || "-"}</td>
+          <td>${formatDate(s.startDate)}</td>
+          <td>${formatDate(s.endDate)}</td>
+          <td>${statusBadge(status)}</td>
+          <td>
+            <div class="row-actions">
+              <button class="btn btn-sm btn-danger" data-action="cancel-sub" data-id="${s.id}" ${status === "cancelled" ? "disabled" : ""}>
+                Cancel
+              </button>
+            </div>
+          </td>
+        </tr>`;
+    }).join("");
   }
 
-  tbody.innerHTML = rows.map((s) => {
-    const status = (s.status || "active").toLowerCase();
-    return `
-      <tr>
-        <td>${s.memberName || "-"}</td>
-        <td>${s.gymName || "-"}</td>
-        <td>${s.plan || "-"}</td>
-        <td>${formatDate(s.startDate)}</td>
-        <td>${formatDate(s.endDate)}</td>
-        <td>${statusBadge(status)}</td>
-        <td>
-          <div class="row-actions">
-            <button class="btn btn-sm btn-danger" data-action="cancel-sub" data-id="${s.id}" ${status === "cancelled" ? "disabled" : ""}>
-              Cancel
-            </button>
-          </div>
-        </td>
-      </tr>`;
-  }).join("");
+  ensureLoadedOnlyNote("subs-search");
+  const btn = ensureLoadMoreButton("panel-subscriptions", "subs-tbody", async () => {
+    await loadMoreSubs();
+    renderSubs();
+    renderStats();
+  });
+  updateLoadMoreVisibility(btn, pageState.subscriptions);
 }
 
-// ---------- Payments (read-only ledger) ----------
+
 
 function renderPayments() {
   const search = (el("payments-search")?.value || "").toLowerCase();
@@ -314,19 +482,26 @@ function renderPayments() {
 
   const tbody = el("payments-tbody");
   if (!rows.length) {
-    tbody.innerHTML = `<tr><td colspan="6" class="table-empty">${allPayments.length ? "No payments match." : "No payment records yet."}</td></tr>`;
-    return;
+    tbody.innerHTML = `<tr><td colspan="6" class="table-empty">${allPayments.length ? "No payments match the loaded rows." : "No payment records yet."}</td></tr>`;
+  } else {
+    tbody.innerHTML = rows.map((p) => `
+        <tr>
+          <td>${formatDate(p.createdAt)}</td>
+          <td>${p.memberName || "-"}</td>
+          <td>${p.gymName || "-"}</td>
+          <td>${p.amount ? money.format(p.amount) : "-"}</td>
+          <td>${p.method || "-"}</td>
+          <td>${statusBadge(p.status)}</td>
+        </tr>`).join("");
   }
 
-  tbody.innerHTML = rows.map((p) => `
-      <tr>
-        <td>${formatDate(p.createdAt)}</td>
-        <td>${p.memberName || "-"}</td>
-        <td>${p.gymName || "-"}</td>
-        <td>${p.amount ? money.format(p.amount) : "-"}</td>
-        <td>${p.method || "-"}</td>
-        <td>${statusBadge(p.status)}</td>
-      </tr>`).join("");
+  ensureLoadedOnlyNote("payments-search");
+  const btn = ensureLoadMoreButton("panel-payments", "payments-tbody", async () => {
+    await loadMorePayments();
+    renderPayments();
+    renderStats();
+  });
+  updateLoadMoreVisibility(btn, pageState.payments);
 }
 
 function renderAll() {
@@ -338,7 +513,7 @@ function renderAll() {
   renderPayments();
 }
 
-// ---------- Actions ----------
+
 
 async function toggleUserStatus(uid, nextStatus) {
   await updateDoc(doc(db, "users", uid), { status: nextStatus });
@@ -385,7 +560,7 @@ async function cancelSubscription(subId) {
   showStatus("Subscription cancelled.");
 }
 
-// ---------- Event delegation for table action buttons ----------
+
 
 document.addEventListener("click", (e) => {
   const button = e.target.closest("button[data-action]");
@@ -433,7 +608,10 @@ document.addEventListener("click", (e) => {
   }
 });
 
-// ---------- Search/filter listeners ----------
+
+
+
+
 
 ["members-search", "members-status-filter"].forEach((id) => el(id)?.addEventListener("input", renderMembers));
 ["owners-search", "owners-status-filter"].forEach((id) => el(id)?.addEventListener("input", renderOwners));
@@ -441,13 +619,35 @@ document.addEventListener("click", (e) => {
 ["subs-search", "subs-status-filter"].forEach((id) => el(id)?.addEventListener("input", renderSubs));
 ["payments-search", "payments-status-filter"].forEach((id) => el(id)?.addEventListener("input", renderPayments));
 
-// ---------- Init ----------
+
 
 onAuthStateChanged(auth, async (user) => {
-  if (!user) return; // auth.js page guard already redirects non-admins away
+  if (!user) return; 
+
+  
+  
+  
+  
+  
+  
+  
+  try {
+    const userSnap = await getDoc(doc(db, "users", user.uid));
+    const role = userSnap.exists() ? userSnap.data().role : null;
+    if (role !== "admin") {
+      showStatus("You are not authorized to view the admin dashboard.", "error");
+      window.location.href = "login.html";
+      return;
+    }
+  } catch (err) {
+    console.error("Admin role check failed:", err);
+    showStatus("Could not verify admin access.", "error");
+    return;
+  }
 
   try {
-    await loadAll();
+    
+    await Promise.all([loadMoreUsers(), loadMoreGyms(), loadMoreSubs(), loadMorePayments()]);
     renderAll();
   } catch (err) {
     console.error("Admin dashboard load failed:", err);

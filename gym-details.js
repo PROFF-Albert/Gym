@@ -1,9 +1,9 @@
-// gym-details.js
-// Powers gym.html: reads ?id=<ownerUid> from the URL, loads that gym's
-// document from Firestore ("gyms/{ownerUid}"), and renders the hero,
-// gallery, membership plans, schedule, contact info, and related gyms.
-// Images are Cloudinary URLs stored on the gym document — this file does
-// not upload or manage images, only displays them.
+
+
+
+
+
+
 
 import { db } from "./firebase-init.js";
 import {
@@ -16,7 +16,7 @@ import {
   where
 } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
 
-// ---------- Money formatting ----------
+
 
 const money = new Intl.NumberFormat("en-GH", {
   style: "currency",
@@ -24,13 +24,13 @@ const money = new Intl.NumberFormat("en-GH", {
   maximumFractionDigits: 0
 });
 
-// ---------- State ----------
+
 
 let currentGym = null;
 let currentGymId = null;
 let activeGalleryIndex = 0;
 
-// ---------- DOM helpers ----------
+
 
 function el(id) {
   return document.getElementById(id);
@@ -46,7 +46,7 @@ function getGymIdFromUrl() {
   return new URLSearchParams(window.location.search).get("id");
 }
 
-// ---------- Loading / error states ----------
+
 
 function showLoading() {
   const banner = el("gym-page-title");
@@ -84,7 +84,7 @@ function showContent() {
   if (stateNode) stateNode.style.display = "none";
 }
 
-// ---------- Data loading ----------
+
 
 async function loadGym(gymId) {
   const snap = await getDoc(doc(db, "gyms", gymId));
@@ -96,6 +96,18 @@ async function loadGym(gymId) {
   return data;
 }
 
+
+
+
+
+
+
+
+
+
+const RELATED_FETCH_LIMIT = 4; 
+const RELATED_DISPLAY_COUNT = 3;
+
 async function loadRelatedGyms(gym, gymId) {
   if (!gym.location) return [];
 
@@ -103,17 +115,17 @@ async function loadRelatedGyms(gym, gymId) {
     collection(db, "gyms"),
     where("published", "==", true),
     where("location", "==", gym.location),
-    limit(4)
+    limit(RELATED_FETCH_LIMIT)
   );
 
   const snap = await getDocs(gymsQuery);
   return snap.docs
     .map((d) => ({ id: d.id, ...d.data() }))
     .filter((g) => g.id !== gymId)
-    .slice(0, 3);
+    .slice(0, RELATED_DISPLAY_COUNT);
 }
 
-// ---------- Hero ----------
+
 
 function renderHero(gym) {
   const nameNode = el("gym-page-title");
@@ -137,7 +149,7 @@ function renderHero(gym) {
   if (descNode) descNode.textContent = gym.description || "No description available.";
 }
 
-// ---------- Gallery ----------
+
 
 function getGalleryImages(gym) {
   const images = [];
@@ -198,7 +210,7 @@ function setHeroImage(images, index) {
   });
 }
 
-// ---------- Membership plans ----------
+
 
 function renderMembershipPlans(gym, gymId) {
   const container = el("gym-plans-container");
@@ -245,7 +257,7 @@ function renderMembershipPlans(gym, gymId) {
   });
 }
 
-// ---------- Schedule ----------
+
 
 const WEEK_DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
@@ -277,7 +289,7 @@ function renderSchedule(gym) {
   }).join("");
 }
 
-// ---------- Contact ----------
+
 
 function renderContact(gym) {
   const phoneNode = el("gym-contact-phone");
@@ -304,7 +316,7 @@ function renderContact(gym) {
   }
 }
 
-// ---------- Related gyms ----------
+
 
 function renderRelatedGyms(gyms) {
   const container = el("gym-related-container");
@@ -336,7 +348,7 @@ function renderRelatedGyms(gyms) {
   }).join("");
 }
 
-// ---------- Init ----------
+
 
 async function initGymDetailsPage() {
   showLoading();

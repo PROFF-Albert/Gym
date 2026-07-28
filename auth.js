@@ -1,8 +1,8 @@
-// auth.js
-// Handles: signup (with role), login (routes by role), logout,
-// password reset, email verification, and protected page guards.
-// Import this as a module in signup.html, login.html, and add the
-// logout handler to every page that has a Logout button.
+
+
+
+
+
 
 import { auth, db } from "./firebase-init.js";
 import {
@@ -27,9 +27,9 @@ import {
 const AUTO_DISMISS_MS = 5000;
 let dismissTimer = null;
 
-// Guard flag: set true while handleLogin / handleSignup are actively
-// completing, so the onAuthStateChanged page guard doesn't race them
-// and redirect to the wrong dashboard (default "member" fallback).
+
+
+
 let authActionInProgress = false;
 
 function autoDismiss(el) {
@@ -75,7 +75,7 @@ function setButtonLoading(button, isLoading, loadingText = "Please wait…") {
   }
 }
 
-// Maps a Firestore role value to the right dashboard page.
+
 function dashboardForRole(role) {
   if (role === "admin") return "admindashboard.html";
   if (role === "owner") return "ownersdashboard.html";
@@ -89,7 +89,7 @@ const protectedRoutes = {
   "user-subscription.html": ["member"],
 
   "ownersdashboard.html": ["owner"],
-  "member.html": ["owner"],
+  "owners-members.html": ["owner"],
   "member-profile.html": ["owner"],
   "subscription.html": ["owner"],
   "owners-subscription.html": ["owner"],
@@ -170,9 +170,9 @@ function runPageGuard() {
       return;
     }
 
-    // If handleLogin / handleSignup is actively finishing (sign-in just
-    // happened), defer to that function's role lookup + redirect so we
-    // don't race it and bounce the user to the default (member) dashboard.
+    
+    
+    
     if (authActionInProgress) return;
 
     try {
@@ -198,15 +198,15 @@ function runPageGuard() {
   });
 }
 
-// ---------- SIGNUP ----------
-// Expects on signup.html:
-//   #account-type  (select, values "Member" | "Gym Owner")
-//   #fname, #lname, #email, #password, #confirm (inputs)
-//   a button with id="signup-btn"
+
+
+
+
+
 
 export async function handleSignup() {
   const button = document.getElementById("signup-btn");
-  const accountType = document.getElementById("account-type").value; // "member" | "owner" or "Member" | "Gym Owner" (legacy)
+  const accountType = document.getElementById("account-type").value; 
   const fname = document.getElementById("fname").value.trim();
   const lname = document.getElementById("lname").value.trim();
   const email = document.getElementById("email").value.trim();
@@ -237,12 +237,12 @@ export async function handleSignup() {
       displayName: `${fname} ${lname}`
     });
 
-    // Store role + profile info in Firestore, keyed by uid
+    
     await setDoc(doc(db, "users", cred.user.uid), {
       firstName: fname,
       lastName: lname,
       email,
-      role, // "member" | "owner"
+      role, 
       createdAt: serverTimestamp()
     });
 
@@ -257,10 +257,10 @@ export async function handleSignup() {
   }
 }
 
-// ---------- LOGIN ----------
-// Expects on login.html:
-//   #email, #password (inputs)
-//   a button with id="login-btn"
+
+
+
+
 
 export async function handleLogin() {
   const button = document.getElementById("login-btn");
@@ -282,7 +282,7 @@ export async function handleLogin() {
       try {
         await sendEmailVerification(cred.user);
       } catch (_) {
-        // Firebase may rate-limit repeated verification emails; login still stays blocked.
+        
       }
       await signOut(auth);
       authActionInProgress = false;
@@ -291,9 +291,9 @@ export async function handleLogin() {
       return;
     }
 
-    // Look up role from Firestore to route correctly.
-    // Cache the role on the window so the page guard (if it also fires)
-    // can use it instead of defaulting to "member" on a missed/empty doc.
+    
+    
+    
     const role = await getUserRole(cred.user.uid);
     window.__authRole = role;
 
@@ -305,10 +305,10 @@ export async function handleLogin() {
   }
 }
 
-// ---------- PASSWORD RESET ----------
-// Expects on login.html:
-//   #email input
-//   a button/link with id="reset-password-btn"
+
+
+
+
 
 export async function handlePasswordReset() {
   const email = document.getElementById("email").value.trim();
@@ -326,9 +326,9 @@ export async function handlePasswordReset() {
   }
 }
 
-// ---------- LOGOUT ----------
-// Attach to any Logout button: onclick="handleLogout()"
-// (exposed on window below for inline onclick compatibility)
+
+
+
 
 export async function handleLogout() {
   try {
@@ -338,12 +338,12 @@ export async function handleLogout() {
   }
 }
 
-// Expose logout globally so existing inline onclick="window.location.href='login.html'"
-// buttons can be swapped to onclick="handleLogout()" without changing to type=module everywhere.
+
+
 window.handleLogout = handleLogout;
 runPageGuard();
 
-// ---------- error messages ----------
+
 
 function friendlyAuthError(err) {
   const code = err && err.code;

@@ -4,12 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-    <link rel="manifest" href="site.webmanifest">
-    <link rel="icon" href="favicon.ico">
+    <link rel="icon" type="image/svg+xml" href="elev8-favicon-package/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="elev8-favicon-package/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="elev8-favicon-package/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="elev8-favicon-package/apple-touch-icon.png">
+    <link rel="manifest" href="elev8-favicon-package/site.webmanifest">
+    <link rel="icon" href="elev8-favicon-package/favicon.ico">
     <title>ELEV8 </title>
     <link rel="stylesheet" href="gym.css">
     <style>
@@ -33,7 +33,7 @@
             pointer-events: none;
         }
 
-        /* Background gym photo, overlaid with brand primary */
+        
         .splash-bg-photo {
             position: absolute;
             inset: 0;
@@ -46,7 +46,7 @@
             opacity: 0.9;
         }
 
-        /* Soft ceiling light streaks */
+        
         .splash-streak {
             position: absolute;
             width: 220px;
@@ -74,7 +74,7 @@
             transform: rotate(18deg);
         }
 
-        /* Glowing orbs — accent + background tints */
+        
         .splash-orb {
             position: absolute;
             border-radius: 50%;
@@ -125,7 +125,7 @@
             }
         }
 
-        /* Logo area */
+        
         .splash-logo-wrap {
             position: relative;
             z-index: 2;
@@ -135,7 +135,7 @@
             gap: 18px;
         }
 
-        /* Geometric mark */
+        
         .splash-mark {
             width: 150px;
             height: auto;
@@ -152,7 +152,7 @@
             }
         }
 
-        /* Brand wordmark */
+        
         .splash-brand {
             display: flex;
             align-items: baseline;
@@ -204,7 +204,7 @@
             }
         }
 
-        /* Tagline */
+        
         .splash-tagline {
             font-family: var(--font-body);
             font-size: 14px;
@@ -226,7 +226,7 @@
             }
         }
 
-        /* Progress bar */
+        
         .splash-loader {
             position: absolute;
             bottom: 100px;
@@ -273,7 +273,7 @@
             }
         }
 
-        /* Responsive */
+        
         @media (max-width: 480px) {
             .splash-mark {
                 width: 110px;
@@ -314,10 +314,10 @@
 
 <body>
 
-    <!-- ====== SPLASH SCREEN ====== -->
+    
     <div class="splash-screen" id="splash-screen">
 
-        <!-- Background photo + effects -->
+        
         <div class="splash-bg-photo"></div>
         <div class="splash-streak splash-streak--1"></div>
         <div class="splash-streak splash-streak--2"></div>
@@ -326,27 +326,27 @@
         <div class="splash-orb splash-orb--2"></div>
         <div class="splash-orb splash-orb--3"></div>
 
-        <!-- Main content -->
+        
         <div class="splash-logo-wrap">
 
-            <!-- Geometric "S/8" mark -->
+            
             <svg class="splash-mark" viewBox="0 0 200 140" xmlns="http://www.w3.org/2000/svg">
                 <path d="M120 10 L60 10 L20 55 L60 55 L60 75 L100 75 L60 120 L100 120 L150 65 L100 65 L100 45 Z"
                     fill="#FCF5E3" />
                 <path d="M100 45 L150 45 L180 75 L165 95 L120 95 L100 75 Z" fill="#FE5516" />
             </svg>
 
-            <!-- Brand name -->
+            
             <div class="splash-brand">
                 <span class="splash-brand-text">ELEV</span>
                 <span class="splash-brand-eight">8</span>
             </div>
 
-            <!-- Tagline -->
+            
             <p class="splash-tagline">TRAIN SMARTER. <span>LIVE BETTER.</span></p>
         </div>
 
-        <!-- Progress bar -->
+        
         <div class="splash-loader">
             <div class="splash-loader-bar">
                 <div class="splash-loader-fill" id="splash-loader-fill"></div>
@@ -354,10 +354,10 @@
         </div>
     </div>
 
-    <!-- ====== SPLASH JS ====== -->
+    
     <script>
         const splashScreen = document.getElementById('splash-screen');
-        const SPLASH_DURATION = 8000; // Total splash time in ms (slowed down)
+        const SPLASH_DURATION = 8000; 
 
         let dismissed = false;
 
@@ -365,16 +365,16 @@
             if (dismissed) return;
             dismissed = true;
             splashScreen.classList.add('fade-out');
-            // Redirect to index after fade
+            
             setTimeout(() => {
                 window.location.href = 'index.html';
             }, 1000);
         }
 
-        // Auto-dismiss after splash duration
+        
         setTimeout(dismissSplash, SPLASH_DURATION);
 
-        // Also allow pressing any key to skip
+        
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ') {
                 dismissSplash();

@@ -15,7 +15,7 @@
             <a class="logo" href="ownersdashboard.html">ELEV<span>8</span></a>
             <ul class="nav-links">
                 <li><a href="ownersdashboard.html">Dashboard</a></li>
-                <li><a href="member.html">Members</a></li>
+                <li><a href="owners-members.html">Members</a></li>
                 <li><a href="subscription.html">Subscriptions</a></li>
                 <li><a href="payment.html">Payments</a></li>
                 <li><a href="gym-profile.html">Gym Profile</a></li>
@@ -32,7 +32,7 @@
 
     <nav class="mobile-nav" id="mobile-nav">
         <a href="ownersdashboard.html">Dashboard</a>
-        <a href="member.html">Members</a>
+        <a href="owners-members.html">Members</a>
         <a href="subscription.html">Subscriptions</a>
         <a href="payment.html">Payments</a>
         <a href="gym-profile.html">Gym Profile</a>
@@ -54,6 +54,8 @@
             <div class="form-container" style="max-width:560px">
                 <h2 class="section-title" style="font-size:24px;margin-bottom:24px">Account Settings</h2>
 
+                <div id="settings-status-message" class="form-alert" style="display:none"></div>
+
                 <div class="form-group">
                     <label for="gym-name">Gym Name</label>
                     <input type="text" id="gym-name" placeholder="Your gym's name">
@@ -74,7 +76,7 @@
                     <input type="password" id="new-pass" placeholder="Min. 8 characters">
                 </div>
 
-                <button class="btn form-btn-full" type="button">Save Changes</button>
+                <button class="btn form-btn-full" type="button" id="save-settings-btn">Save Changes</button>
             </div>
         </div>
     </section>
@@ -95,6 +97,7 @@
     </script>
 
     <script type="module" src="auth.js"></script>
+    <script type="module" src="settings.js"></script>
 </body>
 
 </html>

@@ -4,12 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-    <link rel="manifest" href="site.webmanifest">
-    <link rel="icon" href="favicon.ico">
+    <link rel="icon" type="image/svg+xml" href="elev8-favicon-package/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="elev8-favicon-package/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="elev8-favicon-package/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="elev8-favicon-package/apple-touch-icon.png">
+    <link rel="manifest" href="elev8-favicon-package/site.webmanifest">
+    <link rel="icon" href="elev8-favicon-package/favicon.ico">
     <title>ELEV8 Admin</title>
     <link rel="stylesheet" href="gym.css">
 </head>
@@ -50,7 +50,7 @@
 
             <div id="admin-status-message" class="form-alert" style="display:none"></div>
 
-            <!-- ===== OVERVIEW STATS ===== -->
+            
             <div class="stats-grid">
                 <div class="stat-card">
                     <div class="stat-label">Members</div>
@@ -78,7 +78,7 @@
                 </div>
             </div>
 
-            <!-- ===== TAB SWITCHER ===== -->
+            
             <div class="admin-tabs">
                 <button class="admin-tab active" data-tab="members">Members</button>
                 <button class="admin-tab" data-tab="owners">Gym Owners</button>
@@ -87,7 +87,7 @@
                 <button class="admin-tab" data-tab="payments">Payments</button>
             </div>
 
-            <!-- ===== MEMBERS PANEL ===== -->
+            
             <div class="admin-panel active" id="panel-members">
                 <div class="admin-toolbar">
                     <div class="search-input-wrap">
@@ -119,7 +119,7 @@
                 </div>
             </div>
 
-            <!-- ===== GYM OWNERS PANEL ===== -->
+            
             <div class="admin-panel" id="panel-owners">
                 <div class="admin-toolbar">
                     <div class="search-input-wrap">
@@ -152,7 +152,7 @@
                 </div>
             </div>
 
-            <!-- ===== GYMS PANEL ===== -->
+            
             <div class="admin-panel" id="panel-gyms">
                 <div class="admin-toolbar">
                     <div class="search-input-wrap">
@@ -185,7 +185,7 @@
                 </div>
             </div>
 
-            <!-- ===== SUBSCRIPTIONS PANEL ===== -->
+            
             <div class="admin-panel" id="panel-subscriptions">
                 <div class="admin-toolbar">
                     <div class="search-input-wrap">
@@ -220,7 +220,7 @@
                 </div>
             </div>
 
-            <!-- ===== PAYMENTS PANEL ===== -->
+            
             <div class="admin-panel" id="panel-payments">
                 <div class="admin-toolbar">
                     <div class="search-input-wrap">
@@ -284,7 +284,7 @@
         const mobileNav = document.getElementById('mobile-nav');
         hamburger.addEventListener('click', () => mobileNav.classList.toggle('open'));
 
-        // Tab switching
+        
         document.querySelectorAll('.admin-tab').forEach(tab => {
             tab.addEventListener('click', () => {
                 document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));

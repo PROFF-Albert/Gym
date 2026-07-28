@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>ELEV8 </title>
+    <title>ELEV8</title>
     <link rel="stylesheet" href="gym.css">
 </head>
 
@@ -44,44 +44,70 @@
 
     <div class="page-banner">
         <div class="container">
+            <div class="banner-eyebrow">Owner Members</div>
             <h1>Members</h1>
-            <p>View and manage all gym members.</p>
+            <p>Track active memberships, search records, and open a member profile fast.</p>
+            <div class="banner-pills">
+                <span class="banner-pill">Total Members: 0</span>
+                <span class="banner-pill">Active: 0</span>
+                <span class="banner-pill">Expiring Soon: 0</span>
+            </div>
         </div>
     </div>
 
     <section class="section">
         <div class="container">
 
-            <div class="section-header">
-                <div class="search-input-wrap" style="margin-bottom:0">
-                    <input type="text" placeholder="Search members…">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Total Members</div>
+                    <div class="stat-value">0</div>
                 </div>
+                <div class="stat-card">
+                    <div class="stat-label">Active Memberships</div>
+                    <div class="stat-value accent">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Expiring This Week</div>
+                    <div class="stat-value">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Checked In Today</div>
+                    <div class="stat-value">0</div>
+                </div>
+            </div>
+
+            <div class="section-header">
+                <div class="search-input-wrap" style="margin-bottom:0;max-width:420px">
+                    <input type="text" placeholder="Search members by name, email, or plan…">
+                </div>
+                <button class="btn btn-secondary btn-sm" type="button">Export List</button>
             </div>
 
             <div class="table-wrapper">
                 <table>
                     <thead>
                         <tr>
-                            <th>ID</th>
                             <th>Name</th>
                             <th>Email</th>
                             <th>Plan</th>
                             <th>Status</th>
+                            <th>Last Check-in</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td colspan="6" style="text-align:center;color:var(--muted);padding:40px">
-                                No members found.
+                                No members have been loaded yet.
                             </td>
                         </tr>
                         <tr style="display:none">
-                            <td>—</td>
-                            <td>—</td>
-                            <td>—</td>
-                            <td>—</td>
+                            <td>Jane Doe</td>
+                            <td>jane@example.com</td>
+                            <td>Monthly</td>
                             <td><span class="badge badge-green">Active</span></td>
+                            <td>Today</td>
                             <td>
                                 <a href="member-profile.html" class="btn btn-sm">View</a>
                             </td>
@@ -89,6 +115,8 @@
                     </tbody>
                 </table>
             </div>
+
+           
 
         </div>
     </section>

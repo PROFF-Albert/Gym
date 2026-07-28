@@ -6,24 +6,24 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>ELEV8 </title>
     <link rel="stylesheet" href="gym.css">
+    
+    <script src="https://js.paystack.co/v1/inline.js"></script>
 </head>
 
 <body>
 
     <header class="nav-inner" id="site-header">
-        <div class="container navbar">
-            <a class="logo" href="index.html">ELEV<span>8</span></a>
-            <ul class="nav-links">
-                <li><a href="userdashboard.html">Dashboard</a></li>
-                <li><a href="gyms.html">Find Gyms</a></li>
-            </ul>
-            <div class="nav-action">
-                <button class="btn" onclick="handleLogout()">Logout</button>
-            </div>
-            <button class="hamburger" id="hamburger" aria-label="Open menu">
-                <span></span><span></span><span></span>
-            </button>
+        <a class="logo" href="index.html">ELEV<span>8</span></a>
+        <ul class="nav-links">
+            <li><a href="userdashboard.html">Dashboard</a></li>
+            <li><a href="gyms.html">Find Gyms</a></li>
+        </ul>
+        <div class="nav-action">
+            <button class="btn" onclick="handleLogout()">Logout</button>
         </div>
+        <button class="hamburger" id="hamburger" aria-label="Open menu">
+            <span></span><span></span><span></span>
+        </button>
     </header>
 
     <nav class="mobile-nav" id="mobile-nav">
@@ -36,36 +36,38 @@
 
     <div class="page-banner">
         <div class="container">
-            <h1>Choose a Membership</h1>
-            <p>Select a plan and confirm your details to join this gym.</p>
+            <h1 id="sub-page-title">Choose a Membership</h1>
+            <p id="sub-page-subtitle">Select a plan and confirm your details to join this gym.</p>
         </div>
     </div>
 
     <section class="section">
         <div class="container">
 
+            <div id="sub-status-message" class="form-alert" style="display:none; margin-bottom:24px;"></div>
+
             <h2 class="section-title">Membership Plans</h2>
-            <div class="gym-grid" style="margin-bottom:56px">
+            <div class="gym-grid" id="plans-container" style="margin-bottom:56px">
 
-                <div class="plan-card">
+                <div class="plan-card" id="plan-daily">
                     <h3>Daily</h3>
-                    <div class="plan-price">₵—<span> / day</span></div>
+                    <div class="plan-price" id="price-daily">₵—<span> / day</span></div>
                     <p>Drop-in access for one full day of training.</p>
-                    <button class="btn">Select</button>
+                    <button class="btn select-plan-btn" data-plan="Daily">Select</button>
                 </div>
 
-                <div class="plan-card featured">
+                <div class="plan-card featured" id="plan-weekly">
                     <h3>Weekly</h3>
-                    <div class="plan-price">₵—<span> / week</span></div>
+                    <div class="plan-price" id="price-weekly">₵—<span> / week</span></div>
                     <p>Seven days of unlimited access — great value short-term.</p>
-                    <button class="btn">Select</button>
+                    <button class="btn select-plan-btn" data-plan="Weekly">Select</button>
                 </div>
 
-                <div class="plan-card">
+                <div class="plan-card" id="plan-monthly">
                     <h3>Monthly</h3>
-                    <div class="plan-price">₵—<span> / month</span></div>
+                    <div class="plan-price" id="price-monthly">₵—<span> / month</span></div>
                     <p>Full monthly access at the best daily rate.</p>
-                    <button class="btn">Select</button>
+                    <button class="btn select-plan-btn" data-plan="Monthly">Select</button>
                 </div>
 
             </div>
@@ -84,7 +86,7 @@
                     <label for="phone">Phone Number</label>
                     <input type="tel" id="phone" placeholder="+233 XX XXX XXXX">
                 </div>
-                <button class="btn form-btn-full" type="button">Confirm Subscription</button>
+                <button class="btn form-btn-full" id="confirm-sub-btn" type="button">Confirm Subscription</button>
             </div>
 
         </div>
@@ -106,6 +108,7 @@
     </script>
 
     <script type="module" src="auth.js"></script>
+    <script type="module" src="user-subscription.js"></script>
 </body>
 
 </html>
